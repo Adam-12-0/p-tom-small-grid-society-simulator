@@ -1,0 +1,67 @@
+{
+  "validated_rules": {
+    "rules": [
+      {
+        "id": "ALT_WORK_MOVE",
+        "description": "Move a worker who is moving toward a job with work remaining.",
+        "conditions": [
+          {
+            "field": "role",
+            "op": "eq",
+            "value": "worker"
+          },
+          {
+            "field": "status",
+            "op": "eq",
+            "value": "moving"
+          },
+          {
+            "field": "task",
+            "op": "eq",
+            "value": "complete_job"
+          },
+          {
+            "field": "work_left",
+            "op": "gt",
+            "value": 0
+          }
+        ],
+        "effect": {
+          "action": "move"
+        }
+      }
+    ],
+    "missing_inputs": []
+  },
+  "behavior_check": {
+    "target": "WORK_MOVE",
+    "matched_actions": 12,
+    "mismatches": [],
+    "hard_constraints": "effects are action choices only; Python enforces movement and resources"
+  },
+  "llm_call": {
+    "prompt": "Propose exactly one behavior rule to replace WORK_MOVE in the supplied case. The ID must be ALT_WORK_MOVE. The effect must be exactly {\"action\":\"move\"}. Conditions must include {\"field\":\"role\",\"op\":\"eq\",\"value\":\"worker\"} and use only these fields: role, task, status, has_tool, work_left, urgency. Use operators eq, ne, gt, ge, lt, le. Each condition must have exactly field, op, value. Make the rule apply when the manual case actually moves, not when the agent is queued or finished. Return only JSON with keys rules (one item) and missing_inputs (list). The rule item must have id, description, conditions, effect. Do not change world constraints.\n{\"case\": \"workshop\", \"current_rules\": [\"WORK_MOVE\", \"WORK_QUEUE\", \"WORK_LOAN\", \"WORK_RETURN\", \"WORK_JOB\"], \"people\": [{\"id\": \"S1\", \"position\": [2, 0], \"role\": \"storekeeper\", \"status\": \"available\", \"task\": \"manage_tools\"}, {\"has_tool\": false, \"id\": \"W1\", \"position\": [0, 4], \"role\": \"worker\", \"status\": \"moving\", \"task\": \"complete_job\", \"urgency\": 0.8, \"work_left\": 2, \"workstation\": [0, 4]}, {\"has_tool\": false, \"id\": \"W2\", \"position\": [4, 4], \"role\": \"worker\", \"status\": \"moving\", \"task\": \"complete_job\", \"urgency\": 0.5, \"work_left\": 2, \"workstation\": [4, 4]}], \"places\": {\"counter\": [2, 0]}}",
+    "response": "{\"rules\":[{\"id\":\"ALT_WORK_MOVE\",\"description\":\"Move a worker who is moving toward a job with work remaining.\",\"conditions\":[{\"field\":\"role\",\"op\":\"eq\",\"value\":\"worker\"},{\"field\":\"status\",\"op\":\"eq\",\"value\":\"moving\"},{\"field\":\"task\",\"op\":\"eq\",\"value\":\"complete_job\"},{\"field\":\"work_left\",\"op\":\"gt\",\"value\":0}],\"effect\":{\"action\":\"move\"}}],\"missing_inputs\":[]}",
+    "model": "gpt-6-luna",
+    "settings": {
+      "reasoning": "high",
+      "temperature": null,
+      "max_output_tokens": 2500
+    },
+    "usage": {
+      "input_tokens": 375,
+      "input_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0
+      },
+      "output_tokens": 575,
+      "output_tokens_details": {
+        "reasoning_tokens": 479
+      },
+      "total_tokens": 950
+    },
+    "response_id": "resp_035f0a4863cb1f5f006ae65a9a43d48193be9e31f24e3c868f",
+    "status": "completed",
+    "incomplete_details": null
+  }
+}

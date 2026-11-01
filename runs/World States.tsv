@@ -1,0 +1,546 @@
+run	step	goal	person	role	x	y	task	status	needs_help	has_tool	work_left	arrival_step	served_step	completed_step	wait_steps	queue	return_queue	desk_open	tools_at_counter	tool_count	chosen_action	validation_error
+library-manual	0	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0		
+library-manual	0	False	R1	reader	0	4	get_help	moving	True	False	0				0	[]	[]	True	0	0		
+library-manual	0	False	R2	reader	4	4	get_help	moving	True	False	0				0	[]	[]	True	0	0		
+library-manual	0	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0		
+library-manual	1	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-manual	1	False	R1	reader	0	3	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-manual	1	False	R2	reader	4	3	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-manual	1	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-manual	2	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-manual	2	False	R1	reader	0	2	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-manual	2	False	R2	reader	4	2	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-manual	2	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-manual	3	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-manual	3	False	R1	reader	0	1	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-manual	3	False	R2	reader	4	1	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-manual	3	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-manual	4	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-manual	4	False	R1	reader	0	0	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-manual	4	False	R2	reader	4	0	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-manual	4	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-manual	5	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-manual	5	False	R1	reader	1	0	get_help	moving	True	False	0				0	[]	[]	True	0	0	move right	
+library-manual	5	False	R2	reader	3	0	get_help	moving	True	False	0				0	[]	[]	True	0	0	move left	
+library-manual	5	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-manual	6	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	"[""R1"", ""R2""]"	[]	True	0	0	wait	
+library-manual	6	False	R1	reader	2	0	get_help	waiting	True	False	0	6			0	"[""R1"", ""R2""]"	[]	True	0	0	move right	
+library-manual	6	False	R2	reader	2	0	get_help	waiting	True	False	0	6			0	"[""R1"", ""R2""]"	[]	True	0	0	move left	
+library-manual	6	False	R3	reader	3	3	read	reading	False	False	0				0	"[""R1"", ""R2""]"	[]	True	0	0	read	
+library-manual	7	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	"[""R2""]"	[]	True	0	0	serve	
+library-manual	7	False	R1	reader	2	0	get_help	served	False	False	0	6	7		1	"[""R2""]"	[]	True	0	0		
+library-manual	7	False	R2	reader	2	0	get_help	waiting	True	False	0	6			0	"[""R2""]"	[]	True	0	0	wait	
+library-manual	7	False	R3	reader	3	3	read	reading	False	False	0				0	"[""R2""]"	[]	True	0	0	read	
+library-manual	8	True	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	serve	
+library-manual	8	True	R1	reader	2	0	get_help	served	False	False	0	6	7		1	[]	[]	True	0	0		
+library-manual	8	True	R2	reader	2	0	get_help	served	False	False	0	6	8		2	[]	[]	True	0	0		
+library-manual	8	True	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-closed-manual	0	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0		
+library-closed-manual	0	False	R1	reader	0	4	get_help	moving	True	False	0				0	[]	[]	True	0	0		
+library-closed-manual	0	False	R2	reader	4	4	get_help	moving	True	False	0				0	[]	[]	True	0	0		
+library-closed-manual	0	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0		
+library-closed-manual	1	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-closed-manual	1	False	R1	reader	0	3	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-closed-manual	1	False	R2	reader	4	3	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-closed-manual	1	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-closed-manual	2	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-closed-manual	2	False	R1	reader	0	2	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-closed-manual	2	False	R2	reader	4	2	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-closed-manual	2	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-closed-manual	3	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-closed-manual	3	False	R1	reader	0	1	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-closed-manual	3	False	R2	reader	4	1	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-closed-manual	3	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-closed-manual	4	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-closed-manual	4	False	R1	reader	0	0	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-closed-manual	4	False	R2	reader	4	0	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-closed-manual	4	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-closed-manual	5	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-closed-manual	5	False	R1	reader	1	0	get_help	moving	True	False	0				0	[]	[]	True	0	0	move right	
+library-closed-manual	5	False	R2	reader	3	0	get_help	moving	True	False	0				0	[]	[]	True	0	0	move left	
+library-closed-manual	5	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-closed-manual	6	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	"[""R1"", ""R2""]"	[]	False	0	0	wait	
+library-closed-manual	6	False	R1	reader	2	0	get_help	waiting	True	False	0	6			0	"[""R1"", ""R2""]"	[]	False	0	0	move right	
+library-closed-manual	6	False	R2	reader	2	0	get_help	waiting	True	False	0	6			0	"[""R1"", ""R2""]"	[]	False	0	0	move left	
+library-closed-manual	6	False	R3	reader	3	3	read	reading	False	False	0				0	"[""R1"", ""R2""]"	[]	False	0	0	read	
+library-closed-manual	7	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	"[""R1"", ""R2""]"	[]	False	0	0	wait	
+library-closed-manual	7	False	R1	reader	2	0	get_help	waiting	True	False	0	6			0	"[""R1"", ""R2""]"	[]	False	0	0	wait	
+library-closed-manual	7	False	R2	reader	2	0	get_help	waiting	True	False	0	6			0	"[""R1"", ""R2""]"	[]	False	0	0	wait	
+library-closed-manual	7	False	R3	reader	3	3	read	reading	False	False	0				0	"[""R1"", ""R2""]"	[]	False	0	0	read	
+library-closed-manual	8	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	"[""R1"", ""R2""]"	[]	False	0	0	wait	
+library-closed-manual	8	False	R1	reader	2	0	get_help	waiting	True	False	0	6			0	"[""R1"", ""R2""]"	[]	False	0	0	wait	
+library-closed-manual	8	False	R2	reader	2	0	get_help	waiting	True	False	0	6			0	"[""R1"", ""R2""]"	[]	False	0	0	wait	
+library-closed-manual	8	False	R3	reader	3	3	read	reading	False	False	0				0	"[""R1"", ""R2""]"	[]	False	0	0	read	
+library-closed-manual	9	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	"[""R2""]"	[]	True	0	0	serve	
+library-closed-manual	9	False	R1	reader	2	0	get_help	served	False	False	0	6	9		3	"[""R2""]"	[]	True	0	0		
+library-closed-manual	9	False	R2	reader	2	0	get_help	waiting	True	False	0	6			0	"[""R2""]"	[]	True	0	0	wait	
+library-closed-manual	9	False	R3	reader	3	3	read	reading	False	False	0				0	"[""R2""]"	[]	True	0	0	read	
+library-closed-manual	10	True	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	serve	
+library-closed-manual	10	True	R1	reader	2	0	get_help	served	False	False	0	6	9		3	[]	[]	True	0	0		
+library-closed-manual	10	True	R2	reader	2	0	get_help	served	False	False	0	6	10		4	[]	[]	True	0	0		
+library-closed-manual	10	True	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+workshop-manual	0	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1		
+workshop-manual	0	False	W1	worker	0	4	complete_job	moving	False	False	2				0	[]	[]	True	1	1		
+workshop-manual	0	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	1	1		
+workshop-manual	1	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-manual	1	False	W1	worker	0	3	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-manual	1	False	W2	worker	4	3	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-manual	2	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-manual	2	False	W1	worker	0	2	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-manual	2	False	W2	worker	4	2	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-manual	3	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-manual	3	False	W1	worker	0	1	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-manual	3	False	W2	worker	4	1	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-manual	4	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-manual	4	False	W1	worker	0	0	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-manual	4	False	W2	worker	4	0	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-manual	5	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-manual	5	False	W1	worker	1	0	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move right	
+workshop-manual	5	False	W2	worker	3	0	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move left	
+workshop-manual	6	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W1"", ""W2""]"	[]	True	1	1	wait	
+workshop-manual	6	False	W1	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W1"", ""W2""]"	[]	True	1	1	move right	
+workshop-manual	6	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W1"", ""W2""]"	[]	True	1	1	move left	
+workshop-manual	7	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	loan drill	
+workshop-manual	7	False	W1	worker	2	0	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	0	1		
+workshop-manual	7	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	8	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	8	False	W1	worker	1	0	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	0	1	move left	
+workshop-manual	8	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	9	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	9	False	W1	worker	0	0	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	0	1	move left	
+workshop-manual	9	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	10	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	10	False	W1	worker	0	1	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	0	1	move down	
+workshop-manual	10	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	11	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	11	False	W1	worker	0	2	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	0	1	move down	
+workshop-manual	11	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	12	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	12	False	W1	worker	0	3	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	0	1	move down	
+workshop-manual	12	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	13	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	13	False	W1	worker	0	4	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	0	1	move down	
+workshop-manual	13	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	14	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	14	False	W1	worker	0	4	complete_job	working	False	True	1	6			1	"[""W2""]"	[]	True	0	1	work	
+workshop-manual	14	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	15	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	15	False	W1	worker	0	4	complete_job	returning	False	True	0	6			1	"[""W2""]"	[]	True	0	1	work	
+workshop-manual	15	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	16	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	16	False	W1	worker	0	3	complete_job	returning	False	True	0	6			1	"[""W2""]"	[]	True	0	1	move up	
+workshop-manual	16	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	17	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	17	False	W1	worker	0	2	complete_job	returning	False	True	0	6			1	"[""W2""]"	[]	True	0	1	move up	
+workshop-manual	17	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	18	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	18	False	W1	worker	0	1	complete_job	returning	False	True	0	6			1	"[""W2""]"	[]	True	0	1	move up	
+workshop-manual	18	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	19	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	19	False	W1	worker	0	0	complete_job	returning	False	True	0	6			1	"[""W2""]"	[]	True	0	1	move up	
+workshop-manual	19	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	20	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	20	False	W1	worker	1	0	complete_job	returning	False	True	0	6			1	"[""W2""]"	[]	True	0	1	move right	
+workshop-manual	20	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-manual	21	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	"[""W1""]"	True	0	1	wait	
+workshop-manual	21	False	W1	worker	2	0	complete_job	return_wait	False	True	0	21			1	"[""W2""]"	"[""W1""]"	True	0	1	move right	
+workshop-manual	21	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	"[""W1""]"	True	0	1	wait	
+workshop-manual	22	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	1	1	accept return	
+workshop-manual	22	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	"[""W2""]"	[]	True	1	1		
+workshop-manual	22	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	1	1	wait	
+workshop-manual	23	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	loan drill	
+workshop-manual	23	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-manual	23	False	W2	worker	2	0	complete_job	carrying	False	True	2	6			17	[]	[]	True	0	1		
+workshop-manual	24	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-manual	24	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-manual	24	False	W2	worker	3	0	complete_job	carrying	False	True	2	6			17	[]	[]	True	0	1	move right	
+workshop-manual	25	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-manual	25	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-manual	25	False	W2	worker	4	0	complete_job	carrying	False	True	2	6			17	[]	[]	True	0	1	move right	
+workshop-manual	26	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-manual	26	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-manual	26	False	W2	worker	4	1	complete_job	carrying	False	True	2	6			17	[]	[]	True	0	1	move down	
+workshop-manual	27	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-manual	27	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-manual	27	False	W2	worker	4	2	complete_job	carrying	False	True	2	6			17	[]	[]	True	0	1	move down	
+workshop-manual	28	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-manual	28	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-manual	28	False	W2	worker	4	3	complete_job	carrying	False	True	2	6			17	[]	[]	True	0	1	move down	
+workshop-manual	29	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-manual	29	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-manual	29	False	W2	worker	4	4	complete_job	carrying	False	True	2	6			17	[]	[]	True	0	1	move down	
+workshop-manual	30	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-manual	30	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-manual	30	False	W2	worker	4	4	complete_job	working	False	True	1	6			17	[]	[]	True	0	1	work	
+workshop-manual	31	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-manual	31	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-manual	31	False	W2	worker	4	4	complete_job	returning	False	True	0	6			17	[]	[]	True	0	1	work	
+workshop-manual	32	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-manual	32	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-manual	32	False	W2	worker	4	3	complete_job	returning	False	True	0	6			17	[]	[]	True	0	1	move up	
+workshop-manual	33	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-manual	33	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-manual	33	False	W2	worker	4	2	complete_job	returning	False	True	0	6			17	[]	[]	True	0	1	move up	
+workshop-manual	34	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-manual	34	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-manual	34	False	W2	worker	4	1	complete_job	returning	False	True	0	6			17	[]	[]	True	0	1	move up	
+workshop-manual	35	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-manual	35	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-manual	35	False	W2	worker	4	0	complete_job	returning	False	True	0	6			17	[]	[]	True	0	1	move up	
+workshop-manual	36	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-manual	36	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-manual	36	False	W2	worker	3	0	complete_job	returning	False	True	0	6			17	[]	[]	True	0	1	move left	
+workshop-manual	37	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	"[""W2""]"	True	0	1	wait	
+workshop-manual	37	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	"[""W2""]"	True	0	1		
+workshop-manual	37	False	W2	worker	2	0	complete_job	return_wait	False	True	0	37			17	[]	"[""W2""]"	True	0	1	move left	
+workshop-manual	38	True	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	accept return	
+workshop-manual	38	True	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	1	1		
+workshop-manual	38	True	W2	worker	2	0	complete_job	completed	False	False	0	37		38	18	[]	[]	True	1	1		
+workshop-two-drills-manual	0	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	2	2		
+workshop-two-drills-manual	0	False	W1	worker	0	4	complete_job	moving	False	False	2				0	[]	[]	True	2	2		
+workshop-two-drills-manual	0	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	2	2		
+workshop-two-drills-manual	1	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	2	2	wait	
+workshop-two-drills-manual	1	False	W1	worker	0	3	complete_job	moving	False	False	2				0	[]	[]	True	2	2	move up	
+workshop-two-drills-manual	1	False	W2	worker	4	3	complete_job	moving	False	False	2				0	[]	[]	True	2	2	move up	
+workshop-two-drills-manual	2	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	2	2	wait	
+workshop-two-drills-manual	2	False	W1	worker	0	2	complete_job	moving	False	False	2				0	[]	[]	True	2	2	move up	
+workshop-two-drills-manual	2	False	W2	worker	4	2	complete_job	moving	False	False	2				0	[]	[]	True	2	2	move up	
+workshop-two-drills-manual	3	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	2	2	wait	
+workshop-two-drills-manual	3	False	W1	worker	0	1	complete_job	moving	False	False	2				0	[]	[]	True	2	2	move up	
+workshop-two-drills-manual	3	False	W2	worker	4	1	complete_job	moving	False	False	2				0	[]	[]	True	2	2	move up	
+workshop-two-drills-manual	4	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	2	2	wait	
+workshop-two-drills-manual	4	False	W1	worker	0	0	complete_job	moving	False	False	2				0	[]	[]	True	2	2	move up	
+workshop-two-drills-manual	4	False	W2	worker	4	0	complete_job	moving	False	False	2				0	[]	[]	True	2	2	move up	
+workshop-two-drills-manual	5	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	2	2	wait	
+workshop-two-drills-manual	5	False	W1	worker	1	0	complete_job	moving	False	False	2				0	[]	[]	True	2	2	move right	
+workshop-two-drills-manual	5	False	W2	worker	3	0	complete_job	moving	False	False	2				0	[]	[]	True	2	2	move left	
+workshop-two-drills-manual	6	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W1"", ""W2""]"	[]	True	2	2	wait	
+workshop-two-drills-manual	6	False	W1	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W1"", ""W2""]"	[]	True	2	2	move right	
+workshop-two-drills-manual	6	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W1"", ""W2""]"	[]	True	2	2	move left	
+workshop-two-drills-manual	7	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	1	2	loan drill	
+workshop-two-drills-manual	7	False	W1	worker	2	0	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	1	2		
+workshop-two-drills-manual	7	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	1	2	wait	
+workshop-two-drills-manual	8	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	2	loan drill	
+workshop-two-drills-manual	8	False	W1	worker	1	0	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	2	move left	
+workshop-two-drills-manual	8	False	W2	worker	2	0	complete_job	carrying	False	True	2	6			2	[]	[]	True	0	2		
+workshop-two-drills-manual	9	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	2	wait	
+workshop-two-drills-manual	9	False	W1	worker	0	0	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	2	move left	
+workshop-two-drills-manual	9	False	W2	worker	3	0	complete_job	carrying	False	True	2	6			2	[]	[]	True	0	2	move right	
+workshop-two-drills-manual	10	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	2	wait	
+workshop-two-drills-manual	10	False	W1	worker	0	1	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	2	move down	
+workshop-two-drills-manual	10	False	W2	worker	4	0	complete_job	carrying	False	True	2	6			2	[]	[]	True	0	2	move right	
+workshop-two-drills-manual	11	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	2	wait	
+workshop-two-drills-manual	11	False	W1	worker	0	2	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	2	move down	
+workshop-two-drills-manual	11	False	W2	worker	4	1	complete_job	carrying	False	True	2	6			2	[]	[]	True	0	2	move down	
+workshop-two-drills-manual	12	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	2	wait	
+workshop-two-drills-manual	12	False	W1	worker	0	3	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	2	move down	
+workshop-two-drills-manual	12	False	W2	worker	4	2	complete_job	carrying	False	True	2	6			2	[]	[]	True	0	2	move down	
+workshop-two-drills-manual	13	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	2	wait	
+workshop-two-drills-manual	13	False	W1	worker	0	4	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	2	move down	
+workshop-two-drills-manual	13	False	W2	worker	4	3	complete_job	carrying	False	True	2	6			2	[]	[]	True	0	2	move down	
+workshop-two-drills-manual	14	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	2	wait	
+workshop-two-drills-manual	14	False	W1	worker	0	4	complete_job	working	False	True	1	6			1	[]	[]	True	0	2	work	
+workshop-two-drills-manual	14	False	W2	worker	4	4	complete_job	carrying	False	True	2	6			2	[]	[]	True	0	2	move down	
+workshop-two-drills-manual	15	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	2	wait	
+workshop-two-drills-manual	15	False	W1	worker	0	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	2	work	
+workshop-two-drills-manual	15	False	W2	worker	4	4	complete_job	working	False	True	1	6			2	[]	[]	True	0	2	work	
+workshop-two-drills-manual	16	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	2	wait	
+workshop-two-drills-manual	16	False	W1	worker	0	3	complete_job	returning	False	True	0	6			1	[]	[]	True	0	2	move up	
+workshop-two-drills-manual	16	False	W2	worker	4	4	complete_job	returning	False	True	0	6			2	[]	[]	True	0	2	work	
+workshop-two-drills-manual	17	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	2	wait	
+workshop-two-drills-manual	17	False	W1	worker	0	2	complete_job	returning	False	True	0	6			1	[]	[]	True	0	2	move up	
+workshop-two-drills-manual	17	False	W2	worker	4	3	complete_job	returning	False	True	0	6			2	[]	[]	True	0	2	move up	
+workshop-two-drills-manual	18	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	2	wait	
+workshop-two-drills-manual	18	False	W1	worker	0	1	complete_job	returning	False	True	0	6			1	[]	[]	True	0	2	move up	
+workshop-two-drills-manual	18	False	W2	worker	4	2	complete_job	returning	False	True	0	6			2	[]	[]	True	0	2	move up	
+workshop-two-drills-manual	19	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	2	wait	
+workshop-two-drills-manual	19	False	W1	worker	0	0	complete_job	returning	False	True	0	6			1	[]	[]	True	0	2	move up	
+workshop-two-drills-manual	19	False	W2	worker	4	1	complete_job	returning	False	True	0	6			2	[]	[]	True	0	2	move up	
+workshop-two-drills-manual	20	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	2	wait	
+workshop-two-drills-manual	20	False	W1	worker	1	0	complete_job	returning	False	True	0	6			1	[]	[]	True	0	2	move right	
+workshop-two-drills-manual	20	False	W2	worker	4	0	complete_job	returning	False	True	0	6			2	[]	[]	True	0	2	move up	
+workshop-two-drills-manual	21	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	"[""W1""]"	True	0	2	wait	
+workshop-two-drills-manual	21	False	W1	worker	2	0	complete_job	return_wait	False	True	0	21			1	[]	"[""W1""]"	True	0	2	move right	
+workshop-two-drills-manual	21	False	W2	worker	3	0	complete_job	returning	False	True	0	6			2	[]	"[""W1""]"	True	0	2	move left	
+workshop-two-drills-manual	22	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	"[""W2""]"	True	1	2	accept return	
+workshop-two-drills-manual	22	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	"[""W2""]"	True	1	2		
+workshop-two-drills-manual	22	False	W2	worker	2	0	complete_job	return_wait	False	True	0	22			2	[]	"[""W2""]"	True	1	2	move left	
+workshop-two-drills-manual	23	True	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	2	2	accept return	
+workshop-two-drills-manual	23	True	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	2	2		
+workshop-two-drills-manual	23	True	W2	worker	2	0	complete_job	completed	False	False	0	22		23	3	[]	[]	True	2	2		
+workshop-psl	0	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1		
+workshop-psl	0	False	W1	worker	0	4	complete_job	moving	False	False	2				0	[]	[]	True	1	1		
+workshop-psl	0	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	1	1		
+workshop-psl	1	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-psl	1	False	W1	worker	0	3	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-psl	1	False	W2	worker	4	3	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-psl	2	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-psl	2	False	W1	worker	0	2	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-psl	2	False	W2	worker	4	2	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-psl	3	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-psl	3	False	W1	worker	0	1	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-psl	3	False	W2	worker	4	1	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-psl	4	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-psl	4	False	W1	worker	0	0	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-psl	4	False	W2	worker	4	0	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-psl	5	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-psl	5	False	W1	worker	1	0	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move right	
+workshop-psl	5	False	W2	worker	3	0	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move left	
+workshop-psl	6	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W1"", ""W2""]"	[]	True	1	1	wait	
+workshop-psl	6	False	W1	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W1"", ""W2""]"	[]	True	1	1	move right	
+workshop-psl	6	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W1"", ""W2""]"	[]	True	1	1	move left	
+workshop-psl	7	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	loan drill	
+workshop-psl	7	False	W1	worker	2	0	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	0	1		
+workshop-psl	7	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	8	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	8	False	W1	worker	1	0	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	0	1	move left	
+workshop-psl	8	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	9	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	9	False	W1	worker	0	0	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	0	1	move left	
+workshop-psl	9	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	10	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	10	False	W1	worker	0	1	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	0	1	move down	
+workshop-psl	10	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	11	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	11	False	W1	worker	0	2	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	0	1	move down	
+workshop-psl	11	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	12	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	12	False	W1	worker	0	3	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	0	1	move down	
+workshop-psl	12	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	13	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	13	False	W1	worker	0	4	complete_job	carrying	False	True	2	6			1	"[""W2""]"	[]	True	0	1	move down	
+workshop-psl	13	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	14	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	14	False	W1	worker	0	4	complete_job	working	False	True	1	6			1	"[""W2""]"	[]	True	0	1	work	
+workshop-psl	14	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	15	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	15	False	W1	worker	0	4	complete_job	returning	False	True	0	6			1	"[""W2""]"	[]	True	0	1	work	
+workshop-psl	15	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	16	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	16	False	W1	worker	0	3	complete_job	returning	False	True	0	6			1	"[""W2""]"	[]	True	0	1	move up	
+workshop-psl	16	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	17	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	17	False	W1	worker	0	2	complete_job	returning	False	True	0	6			1	"[""W2""]"	[]	True	0	1	move up	
+workshop-psl	17	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	18	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	18	False	W1	worker	0	1	complete_job	returning	False	True	0	6			1	"[""W2""]"	[]	True	0	1	move up	
+workshop-psl	18	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	19	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	19	False	W1	worker	0	0	complete_job	returning	False	True	0	6			1	"[""W2""]"	[]	True	0	1	move up	
+workshop-psl	19	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	20	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	20	False	W1	worker	1	0	complete_job	returning	False	True	0	6			1	"[""W2""]"	[]	True	0	1	move right	
+workshop-psl	20	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	0	1	wait	
+workshop-psl	21	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	"[""W1""]"	True	0	1	wait	
+workshop-psl	21	False	W1	worker	2	0	complete_job	return_wait	False	True	0	21			1	"[""W2""]"	"[""W1""]"	True	0	1	move right	
+workshop-psl	21	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	"[""W1""]"	True	0	1	wait	
+workshop-psl	22	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W2""]"	[]	True	1	1	accept return	
+workshop-psl	22	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	"[""W2""]"	[]	True	1	1		
+workshop-psl	22	False	W2	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W2""]"	[]	True	1	1	wait	
+workshop-psl	23	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	loan drill	
+workshop-psl	23	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-psl	23	False	W2	worker	2	0	complete_job	carrying	False	True	2	6			17	[]	[]	True	0	1		
+workshop-psl	24	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-psl	24	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-psl	24	False	W2	worker	3	0	complete_job	carrying	False	True	2	6			17	[]	[]	True	0	1	move right	
+workshop-psl	25	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-psl	25	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-psl	25	False	W2	worker	4	0	complete_job	carrying	False	True	2	6			17	[]	[]	True	0	1	move right	
+workshop-psl	26	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-psl	26	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-psl	26	False	W2	worker	4	1	complete_job	carrying	False	True	2	6			17	[]	[]	True	0	1	move down	
+workshop-psl	27	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-psl	27	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-psl	27	False	W2	worker	4	2	complete_job	carrying	False	True	2	6			17	[]	[]	True	0	1	move down	
+workshop-psl	28	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-psl	28	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-psl	28	False	W2	worker	4	3	complete_job	carrying	False	True	2	6			17	[]	[]	True	0	1	move down	
+workshop-psl	29	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-psl	29	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-psl	29	False	W2	worker	4	4	complete_job	carrying	False	True	2	6			17	[]	[]	True	0	1	move down	
+workshop-psl	30	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-psl	30	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-psl	30	False	W2	worker	4	4	complete_job	working	False	True	1	6			17	[]	[]	True	0	1	work	
+workshop-psl	31	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-psl	31	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-psl	31	False	W2	worker	4	4	complete_job	returning	False	True	0	6			17	[]	[]	True	0	1	work	
+workshop-psl	32	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-psl	32	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-psl	32	False	W2	worker	4	3	complete_job	returning	False	True	0	6			17	[]	[]	True	0	1	move up	
+workshop-psl	33	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-psl	33	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-psl	33	False	W2	worker	4	2	complete_job	returning	False	True	0	6			17	[]	[]	True	0	1	move up	
+workshop-psl	34	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-psl	34	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-psl	34	False	W2	worker	4	1	complete_job	returning	False	True	0	6			17	[]	[]	True	0	1	move up	
+workshop-psl	35	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-psl	35	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-psl	35	False	W2	worker	4	0	complete_job	returning	False	True	0	6			17	[]	[]	True	0	1	move up	
+workshop-psl	36	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-psl	36	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	0	1		
+workshop-psl	36	False	W2	worker	3	0	complete_job	returning	False	True	0	6			17	[]	[]	True	0	1	move left	
+workshop-psl	37	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	"[""W2""]"	True	0	1	wait	
+workshop-psl	37	False	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	"[""W2""]"	True	0	1		
+workshop-psl	37	False	W2	worker	2	0	complete_job	return_wait	False	True	0	37			17	[]	"[""W2""]"	True	0	1	move left	
+workshop-psl	38	True	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	accept return	
+workshop-psl	38	True	W1	worker	2	0	complete_job	completed	False	False	0	21		22	2	[]	[]	True	1	1		
+workshop-psl	38	True	W2	worker	2	0	complete_job	completed	False	False	0	37		38	18	[]	[]	True	1	1		
+library-azure-full	0	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0		
+library-azure-full	0	False	R1	reader	0	4	get_help	moving	True	False	0				0	[]	[]	True	0	0		
+library-azure-full	0	False	R2	reader	4	4	get_help	moving	True	False	0				0	[]	[]	True	0	0		
+library-azure-full	0	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0		
+library-azure-full	1	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-azure-full	1	False	R1	reader	0	3	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-azure-full	1	False	R2	reader	4	3	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-azure-full	1	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-azure-full	2	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-azure-full	2	False	R1	reader	0	2	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-azure-full	2	False	R2	reader	4	2	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-azure-full	2	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-azure-full	3	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-azure-full	3	False	R1	reader	0	1	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-azure-full	3	False	R2	reader	3	2	get_help	moving	True	False	0				0	[]	[]	True	0	0	move left	
+library-azure-full	3	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-azure-full	4	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-azure-full	4	False	R1	reader	1	1	get_help	moving	True	False	0				0	[]	[]	True	0	0	move right	
+library-azure-full	4	False	R2	reader	3	1	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-azure-full	4	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-azure-full	5	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	wait	
+library-azure-full	5	False	R1	reader	1	0	get_help	moving	True	False	0				0	[]	[]	True	0	0	move up	
+library-azure-full	5	False	R2	reader	2	1	get_help	moving	True	False	0				0	[]	[]	True	0	0	move left	
+library-azure-full	5	False	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+library-azure-full	6	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	"[""R1"", ""R2""]"	[]	True	0	0	wait	
+library-azure-full	6	False	R1	reader	2	0	get_help	waiting	True	False	0	6			0	"[""R1"", ""R2""]"	[]	True	0	0	move right	
+library-azure-full	6	False	R2	reader	2	0	get_help	waiting	True	False	0	6			0	"[""R1"", ""R2""]"	[]	True	0	0	move up	
+library-azure-full	6	False	R3	reader	3	3	read	reading	False	False	0				0	"[""R1"", ""R2""]"	[]	True	0	0	read	
+library-azure-full	7	False	L1	librarian	2	0	serve_readers	available	False	False	0				0	"[""R2""]"	[]	True	0	0	serve	
+library-azure-full	7	False	R1	reader	2	0	get_help	served	False	False	0	6	7		1	"[""R2""]"	[]	True	0	0		
+library-azure-full	7	False	R2	reader	2	0	get_help	waiting	True	False	0	6			0	"[""R2""]"	[]	True	0	0	wait	
+library-azure-full	7	False	R3	reader	3	3	read	reading	False	False	0				0	"[""R2""]"	[]	True	0	0	read	
+library-azure-full	8	True	L1	librarian	2	0	serve_readers	available	False	False	0				0	[]	[]	True	0	0	serve	
+library-azure-full	8	True	R1	reader	2	0	get_help	served	False	False	0	6	7		1	[]	[]	True	0	0		
+library-azure-full	8	True	R2	reader	2	0	get_help	served	False	False	0	6	8		2	[]	[]	True	0	0		
+library-azure-full	8	True	R3	reader	3	3	read	reading	False	False	0				0	[]	[]	True	0	0	read	
+workshop-azure-full	0	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1		
+workshop-azure-full	0	False	W1	worker	0	4	complete_job	moving	False	False	2				0	[]	[]	True	1	1		
+workshop-azure-full	0	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	1	1		
+workshop-azure-full	1	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-azure-full	1	False	W1	worker	0	3	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-azure-full	1	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	1	1	wait	
+workshop-azure-full	2	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-azure-full	2	False	W1	worker	1	3	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move right	
+workshop-azure-full	2	False	W2	worker	4	3	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-azure-full	3	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-azure-full	3	False	W1	worker	2	3	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move right	
+workshop-azure-full	3	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move down	
+workshop-azure-full	4	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-azure-full	4	False	W1	worker	2	2	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-azure-full	4	False	W2	worker	4	3	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-azure-full	5	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	1	1	wait	
+workshop-azure-full	5	False	W1	worker	2	1	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-azure-full	5	False	W2	worker	4	2	complete_job	moving	False	False	2				0	[]	[]	True	1	1	move up	
+workshop-azure-full	6	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	"[""W1""]"	[]	True	1	1	wait	
+workshop-azure-full	6	False	W1	worker	2	0	complete_job	waiting	False	False	2	6			0	"[""W1""]"	[]	True	1	1	move up	
+workshop-azure-full	6	False	W2	worker	4	3	complete_job	moving	False	False	2				0	"[""W1""]"	[]	True	1	1	move down	
+workshop-azure-full	7	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	loan drill	
+workshop-azure-full	7	False	W1	worker	2	0	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	1		
+workshop-azure-full	7	False	W2	worker	4	2	complete_job	moving	False	False	2				0	[]	[]	True	0	1	move up	
+workshop-azure-full	8	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	8	False	W1	worker	1	0	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	1	move left	
+workshop-azure-full	8	False	W2	worker	4	3	complete_job	moving	False	False	2				0	[]	[]	True	0	1	move down	
+workshop-azure-full	9	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	9	False	W1	worker	0	0	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	1	move left	
+workshop-azure-full	9	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	move down	
+workshop-azure-full	10	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	10	False	W1	worker	0	1	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	1	move down	
+workshop-azure-full	10	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	11	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	11	False	W1	worker	0	2	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	1	move down	
+workshop-azure-full	11	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	12	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	12	False	W1	worker	0	3	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	1	move down	
+workshop-azure-full	12	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	13	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	13	False	W1	worker	1	3	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	1	move right	
+workshop-azure-full	13	False	W2	worker	4	3	complete_job	moving	False	False	2				0	[]	[]	True	0	1	move up	
+workshop-azure-full	14	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	14	False	W1	worker	1	2	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	1	move up	
+workshop-azure-full	14	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	move down	
+workshop-azure-full	15	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	15	False	W1	worker	1	3	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	1	move down	
+workshop-azure-full	15	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	16	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	16	False	W1	worker	0	3	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	1	move left	
+workshop-azure-full	16	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	17	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	17	False	W1	worker	0	3	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	1	wait	Unterminated string starting at: line 1 column 61 (char 60)
+workshop-azure-full	17	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	18	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	18	False	W1	worker	0	4	complete_job	carrying	False	True	2	6			1	[]	[]	True	0	1	move down	
+workshop-azure-full	18	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	19	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	19	False	W1	worker	0	4	complete_job	working	False	True	1	6			1	[]	[]	True	0	1	work	
+workshop-azure-full	19	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	20	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	20	False	W1	worker	0	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	work	
+workshop-azure-full	20	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	21	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	21	False	W1	worker	1	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move right	
+workshop-azure-full	21	False	W2	worker	4	3	complete_job	moving	False	False	2				0	[]	[]	True	0	1	move up	
+workshop-azure-full	22	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	22	False	W1	worker	0	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move left	
+workshop-azure-full	22	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	move down	
+workshop-azure-full	23	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	23	False	W1	worker	0	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	wait	Action is not allowed
+workshop-azure-full	23	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	24	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	24	False	W1	worker	0	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	wait	Expecting value: line 1 column 1 (char 0)
+workshop-azure-full	24	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	25	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	25	False	W1	worker	1	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move right	
+workshop-azure-full	25	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	26	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	26	False	W1	worker	0	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move left	
+workshop-azure-full	26	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	27	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	27	False	W1	worker	0	3	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move up	
+workshop-azure-full	27	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	28	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	28	False	W1	worker	0	2	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move up	
+workshop-azure-full	28	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	29	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	29	False	W1	worker	0	3	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move down	
+workshop-azure-full	29	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	30	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	30	False	W1	worker	0	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move down	
+workshop-azure-full	30	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	31	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	31	False	W1	worker	0	3	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move up	
+workshop-azure-full	31	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	32	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	32	False	W1	worker	0	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move down	
+workshop-azure-full	32	False	W2	worker	4	3	complete_job	moving	False	False	2				0	[]	[]	True	0	1	move up	
+workshop-azure-full	33	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	33	False	W1	worker	0	3	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move up	
+workshop-azure-full	33	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	move down	
+workshop-azure-full	34	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	34	False	W1	worker	0	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move down	
+workshop-azure-full	34	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	35	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	35	False	W1	worker	1	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move right	
+workshop-azure-full	35	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	36	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	36	False	W1	worker	0	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move left	
+workshop-azure-full	36	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	37	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	37	False	W1	worker	0	3	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move up	
+workshop-azure-full	37	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	38	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	38	False	W1	worker	0	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move down	
+workshop-azure-full	38	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	39	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	39	False	W1	worker	0	4	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	wait	Action is not allowed
+workshop-azure-full	39	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	
+workshop-azure-full	40	False	S1	storekeeper	2	0	manage_tools	available	False	False	0				0	[]	[]	True	0	1	wait	
+workshop-azure-full	40	False	W1	worker	0	3	complete_job	returning	False	True	0	6			1	[]	[]	True	0	1	move up	
+workshop-azure-full	40	False	W2	worker	4	4	complete_job	moving	False	False	2				0	[]	[]	True	0	1	wait	

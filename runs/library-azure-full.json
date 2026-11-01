@@ -1,0 +1,4703 @@
+{
+  "case_file": "cases/library.json",
+  "configuration": {
+    "case": "library",
+    "width": 5,
+    "height": 5,
+    "blocked": [
+      [
+        2,
+        2
+      ]
+    ],
+    "places": {
+      "desk": [
+        2,
+        0
+      ],
+      "reading": [
+        3,
+        3
+      ]
+    },
+    "desk_open": true,
+    "people": [
+      {
+        "id": "L1",
+        "role": "librarian",
+        "position": [
+          2,
+          0
+        ],
+        "task": "serve_readers",
+        "status": "available",
+        "needs_help": false,
+        "has_tool": false,
+        "work_left": 0,
+        "urgency": 0.0,
+        "workstation": null,
+        "arrival_step": null,
+        "served_step": null,
+        "completed_step": null,
+        "wait_steps": 0
+      },
+      {
+        "id": "R1",
+        "role": "reader",
+        "position": [
+          0,
+          4
+        ],
+        "task": "get_help",
+        "status": "moving",
+        "needs_help": true,
+        "has_tool": false,
+        "work_left": 0,
+        "urgency": 0.0,
+        "workstation": null,
+        "arrival_step": null,
+        "served_step": null,
+        "completed_step": null,
+        "wait_steps": 0
+      },
+      {
+        "id": "R2",
+        "role": "reader",
+        "position": [
+          4,
+          4
+        ],
+        "task": "get_help",
+        "status": "moving",
+        "needs_help": true,
+        "has_tool": false,
+        "work_left": 0,
+        "urgency": 0.0,
+        "workstation": null,
+        "arrival_step": null,
+        "served_step": null,
+        "completed_step": null,
+        "wait_steps": 0
+      },
+      {
+        "id": "R3",
+        "role": "reader",
+        "position": [
+          3,
+          3
+        ],
+        "task": "read",
+        "status": "reading",
+        "needs_help": false,
+        "has_tool": false,
+        "work_left": 0,
+        "urgency": 0.0,
+        "workstation": null,
+        "arrival_step": null,
+        "served_step": null,
+        "completed_step": null,
+        "wait_steps": 0
+      }
+    ],
+    "rules": [
+      "LIB_MOVE",
+      "LIB_QUEUE",
+      "LIB_SERVE",
+      "LIB_READ"
+    ],
+    "policy": "azure",
+    "scheduled_changes": [],
+    "step_limit": 12,
+    "goal": {
+      "type": "readers_served",
+      "count": 2
+    },
+    "tool_count": 0
+  },
+  "rules": {
+    "LIB_MOVE": {
+      "description": "Reader moves one cell on a shortest path to the help desk.",
+      "conditions": [
+        "reader needs help",
+        "reader is not at desk",
+        "walkable path exists"
+      ],
+      "effect": "move one legal cell toward desk"
+    },
+    "LIB_QUEUE": {
+      "description": "Arriving reader joins the service queue for the next step.",
+      "conditions": [
+        "reader arrives at desk"
+      ],
+      "effect": "append to queue for next step"
+    },
+    "LIB_SERVE": {
+      "description": "Open desk serves at most one previously queued reader.",
+      "conditions": [
+        "desk open",
+        "reader queued before step"
+      ],
+      "effect": "serve one reader and remove from queue"
+    },
+    "LIB_READ": {
+      "description": "Reader without a help request keeps reading.",
+      "conditions": [
+        "reader has no help request and is reading"
+      ],
+      "effect": "remain reading"
+    },
+    "WORK_MOVE": {
+      "description": "Worker moves to counter or workstation along a shortest path.",
+      "conditions": [
+        "worker has a destination",
+        "walkable path exists"
+      ],
+      "effect": "move one legal cell"
+    },
+    "WORK_QUEUE": {
+      "description": "Arriving worker joins loan or return queue for the next step.",
+      "conditions": [
+        "worker arrives at counter"
+      ],
+      "effect": "append to loan or return queue for next step"
+    },
+    "WORK_LOAN": {
+      "description": "Storekeeper lends one available drill to a queued worker.",
+      "conditions": [
+        "drill available",
+        "worker queued before step",
+        "no return handover this step"
+      ],
+      "effect": "transfer one drill to worker"
+    },
+    "WORK_RETURN": {
+      "description": "Storekeeper accepts one returned drill before any loan.",
+      "conditions": [
+        "worker with drill queued to return before step"
+      ],
+      "effect": "transfer one drill to counter and complete job"
+    },
+    "WORK_JOB": {
+      "description": "Worker holding a drill completes one work unit at workstation.",
+      "conditions": [
+        "worker holds drill",
+        "worker at workstation",
+        "work remains"
+      ],
+      "effect": "reduce work_left by one"
+    }
+  },
+  "trace": [
+    {
+      "step": 0,
+      "before": {
+        "step": 0,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              0,
+              4
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              4,
+              4
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 0,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              0,
+              4
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              4,
+              4
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [],
+      "interactions": [],
+      "rule_ids": [],
+      "goal": false,
+      "llm_calls": [],
+      "chosen_actions": []
+    },
+    {
+      "step": 1,
+      "before": {
+        "step": 0,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              0,
+              4
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              4,
+              4
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 1,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              0,
+              3
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              4,
+              3
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "L1",
+          "action": "wait",
+          "rule": null,
+          "detail": "queue empty",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(0, 4) -> (0, 3)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R2",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(4, 4) -> (4, 3)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "LIB_MOVE",
+        "LIB_MOVE",
+        "LIB_READ"
+      ],
+      "goal": false,
+      "chosen_actions": [
+        {
+          "person": "L1",
+          "action": "wait",
+          "rule": null,
+          "detail": "queue empty",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(0, 4) -> (0, 3)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R2",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(4, 4) -> (4, 3)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "llm_calls": [
+        {
+          "step": 1,
+          "person": "R1",
+          "observation": {
+            "step": 1,
+            "case": "library",
+            "self": {
+              "id": "R1",
+              "role": "reader",
+              "position": [
+                0,
+                4
+              ],
+              "task": "get_help",
+              "status": "moving",
+              "needs_help": true,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R1",
+                "role": "reader",
+                "position": [
+                  0,
+                  4
+                ],
+                "status": "moving"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "right"
+              }
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"move\", \"arguments\": {\"direction\": \"up\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"right\"}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R1\", \"position\": [0, 4], \"role\": \"reader\", \"status\": \"moving\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R1\", \"needs_help\": true, \"position\": [0, 4], \"role\": \"reader\", \"status\": \"moving\", \"task\": \"get_help\", \"work_left\": 0, \"workstation\": null}, \"step\": 1, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"move\",\"arguments\":{\"direction\":\"up\"},\"reason\":\"Move toward the help desk at [2, 0].\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 266,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 110,
+              "output_tokens_details": {
+                "reasoning_tokens": 77
+              },
+              "total_tokens": 376
+            },
+            "response_id": "resp_0a26e587fa4f22c0006ae65bb64bac8197974c35a58cc3fa96",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            }
+          }
+        },
+        {
+          "step": 1,
+          "person": "R2",
+          "observation": {
+            "step": 1,
+            "case": "library",
+            "self": {
+              "id": "R2",
+              "role": "reader",
+              "position": [
+                4,
+                4
+              ],
+              "task": "get_help",
+              "status": "moving",
+              "needs_help": true,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R2",
+                "role": "reader",
+                "position": [
+                  4,
+                  4
+                ],
+                "status": "moving"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "left"
+              }
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"move\", \"arguments\": {\"direction\": \"up\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"left\"}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R2\", \"position\": [4, 4], \"role\": \"reader\", \"status\": \"moving\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R2\", \"needs_help\": true, \"position\": [4, 4], \"role\": \"reader\", \"status\": \"moving\", \"task\": \"get_help\", \"work_left\": 0, \"workstation\": null}, \"step\": 1, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"move\",\"arguments\":{\"direction\":\"up\"},\"reason\":\"Moves closer to the help desk.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 266,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 119,
+              "output_tokens_details": {
+                "reasoning_tokens": 91
+              },
+              "total_tokens": 385
+            },
+            "response_id": "resp_049b5758e0117edb006ae65bb8c130819785c499801422ce96",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            }
+          }
+        },
+        {
+          "step": 1,
+          "person": "R3",
+          "observation": {
+            "step": 1,
+            "case": "library",
+            "self": {
+              "id": "R3",
+              "role": "reader",
+              "position": [
+                3,
+                3
+              ],
+              "task": "read",
+              "status": "reading",
+              "needs_help": false,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R3",
+                "role": "reader",
+                "position": [
+                  3,
+                  3
+                ],
+                "status": "reading"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "read",
+              "arguments": {}
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"read\", \"arguments\": {}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R3\", \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R3\", \"needs_help\": false, \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\", \"task\": \"read\", \"work_left\": 0, \"workstation\": null}, \"step\": 1, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"read\",\"arguments\":{},\"reason\":\"I am at the reading area and my task is to read.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 244,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 29,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 273
+            },
+            "response_id": "resp_000cbfbda910deac006ae65bbd42fc8194930701c665aaf4c5",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "read",
+              "arguments": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "before": {
+        "step": 1,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              0,
+              3
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              4,
+              3
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 2,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              0,
+              2
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              4,
+              2
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "L1",
+          "action": "wait",
+          "rule": null,
+          "detail": "queue empty",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(0, 3) -> (0, 2)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R2",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(4, 3) -> (4, 2)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "LIB_MOVE",
+        "LIB_MOVE",
+        "LIB_READ"
+      ],
+      "goal": false,
+      "chosen_actions": [
+        {
+          "person": "L1",
+          "action": "wait",
+          "rule": null,
+          "detail": "queue empty",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(0, 3) -> (0, 2)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R2",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(4, 3) -> (4, 2)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "llm_calls": [
+        {
+          "step": 2,
+          "person": "R1",
+          "observation": {
+            "step": 2,
+            "case": "library",
+            "self": {
+              "id": "R1",
+              "role": "reader",
+              "position": [
+                0,
+                3
+              ],
+              "task": "get_help",
+              "status": "moving",
+              "needs_help": true,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R1",
+                "role": "reader",
+                "position": [
+                  0,
+                  3
+                ],
+                "status": "moving"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "right"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "down"
+              }
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"move\", \"arguments\": {\"direction\": \"up\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"right\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"down\"}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R1\", \"position\": [0, 3], \"role\": \"reader\", \"status\": \"moving\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R1\", \"needs_help\": true, \"position\": [0, 3], \"role\": \"reader\", \"status\": \"moving\", \"task\": \"get_help\", \"work_left\": 0, \"workstation\": null}, \"step\": 2, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"move\",\"arguments\":{\"direction\":\"up\"},\"reason\":\"Moves toward the help desk at [2, 0].\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 282,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 127,
+              "output_tokens_details": {
+                "reasoning_tokens": 94
+              },
+              "total_tokens": 409
+            },
+            "response_id": "resp_0db315416c397960006ae65bbe42cc81969e9494b8d6846f22",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            }
+          }
+        },
+        {
+          "step": 2,
+          "person": "R2",
+          "observation": {
+            "step": 2,
+            "case": "library",
+            "self": {
+              "id": "R2",
+              "role": "reader",
+              "position": [
+                4,
+                3
+              ],
+              "task": "get_help",
+              "status": "moving",
+              "needs_help": true,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R2",
+                "role": "reader",
+                "position": [
+                  4,
+                  3
+                ],
+                "status": "moving"
+              },
+              {
+                "id": "R3",
+                "role": "reader",
+                "position": [
+                  3,
+                  3
+                ],
+                "status": "reading"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "left"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "down"
+              }
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"move\", \"arguments\": {\"direction\": \"up\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"left\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"down\"}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R2\", \"position\": [4, 3], \"role\": \"reader\", \"status\": \"moving\"}, {\"id\": \"R3\", \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R2\", \"needs_help\": true, \"position\": [4, 3], \"role\": \"reader\", \"status\": \"moving\", \"task\": \"get_help\", \"work_left\": 0, \"workstation\": null}, \"step\": 2, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"move\",\"arguments\":{\"direction\":\"up\"},\"reason\":\"Moves closer to the help desk without entering the occupied reading position.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 310,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 112,
+              "output_tokens_details": {
+                "reasoning_tokens": 78
+              },
+              "total_tokens": 422
+            },
+            "response_id": "resp_0d6193ca2defa0ad006ae65bc022c88196b89a8ccabcba742d",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            }
+          }
+        },
+        {
+          "step": 2,
+          "person": "R3",
+          "observation": {
+            "step": 2,
+            "case": "library",
+            "self": {
+              "id": "R3",
+              "role": "reader",
+              "position": [
+                3,
+                3
+              ],
+              "task": "read",
+              "status": "reading",
+              "needs_help": false,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R2",
+                "role": "reader",
+                "position": [
+                  4,
+                  3
+                ],
+                "status": "moving"
+              },
+              {
+                "id": "R3",
+                "role": "reader",
+                "position": [
+                  3,
+                  3
+                ],
+                "status": "reading"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "read",
+              "arguments": {}
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"read\", \"arguments\": {}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R2\", \"position\": [4, 3], \"role\": \"reader\", \"status\": \"moving\"}, {\"id\": \"R3\", \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R3\", \"needs_help\": false, \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\", \"task\": \"read\", \"work_left\": 0, \"workstation\": null}, \"step\": 2, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"read\",\"arguments\":{},\"reason\":\"I am at the reading place and my assigned task is to read.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 272,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 70,
+              "output_tokens_details": {
+                "reasoning_tokens": 38
+              },
+              "total_tokens": 342
+            },
+            "response_id": "resp_06d65c6d46d8a429006ae65bc2667c81939a033e67f02403d7",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "read",
+              "arguments": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "step": 3,
+      "before": {
+        "step": 2,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              0,
+              2
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              4,
+              2
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 3,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              0,
+              1
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              3,
+              2
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "L1",
+          "action": "wait",
+          "rule": null,
+          "detail": "queue empty",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(0, 2) -> (0, 1)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R2",
+          "action": "move left",
+          "rule": "LIB_MOVE",
+          "detail": "(4, 2) -> (3, 2)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "LIB_MOVE",
+        "LIB_MOVE",
+        "LIB_READ"
+      ],
+      "goal": false,
+      "chosen_actions": [
+        {
+          "person": "L1",
+          "action": "wait",
+          "rule": null,
+          "detail": "queue empty",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(0, 2) -> (0, 1)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R2",
+          "action": "move left",
+          "rule": "LIB_MOVE",
+          "detail": "(4, 2) -> (3, 2)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "llm_calls": [
+        {
+          "step": 3,
+          "person": "R1",
+          "observation": {
+            "step": 3,
+            "case": "library",
+            "self": {
+              "id": "R1",
+              "role": "reader",
+              "position": [
+                0,
+                2
+              ],
+              "task": "get_help",
+              "status": "moving",
+              "needs_help": true,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R1",
+                "role": "reader",
+                "position": [
+                  0,
+                  2
+                ],
+                "status": "moving"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "right"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "down"
+              }
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"move\", \"arguments\": {\"direction\": \"up\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"right\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"down\"}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R1\", \"position\": [0, 2], \"role\": \"reader\", \"status\": \"moving\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R1\", \"needs_help\": true, \"position\": [0, 2], \"role\": \"reader\", \"status\": \"moving\", \"task\": \"get_help\", \"work_left\": 0, \"workstation\": null}, \"step\": 3, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"move\",\"arguments\":{\"direction\":\"up\"},\"reason\":\"Move toward the desk at [2, 0] to get help.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 282,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 102,
+              "output_tokens_details": {
+                "reasoning_tokens": 66
+              },
+              "total_tokens": 384
+            },
+            "response_id": "resp_0e5df41e3ac077c6006ae65bc40368819083b8555a78548f94",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            }
+          }
+        },
+        {
+          "step": 3,
+          "person": "R2",
+          "observation": {
+            "step": 3,
+            "case": "library",
+            "self": {
+              "id": "R2",
+              "role": "reader",
+              "position": [
+                4,
+                2
+              ],
+              "task": "get_help",
+              "status": "moving",
+              "needs_help": true,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R2",
+                "role": "reader",
+                "position": [
+                  4,
+                  2
+                ],
+                "status": "moving"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "left"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "down"
+              }
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"move\", \"arguments\": {\"direction\": \"up\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"left\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"down\"}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R2\", \"position\": [4, 2], \"role\": \"reader\", \"status\": \"moving\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R2\", \"needs_help\": true, \"position\": [4, 2], \"role\": \"reader\", \"status\": \"moving\", \"task\": \"get_help\", \"work_left\": 0, \"workstation\": null}, \"step\": 3, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"move\",\"arguments\":{\"direction\":\"left\"},\"reason\":\"Move closer to the help desk at [2, 0].\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 282,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 133,
+              "output_tokens_details": {
+                "reasoning_tokens": 99
+              },
+              "total_tokens": 415
+            },
+            "response_id": "resp_08e9ff532af6ed0d006ae65bc611808193b91e136e969f63cf",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "move",
+              "arguments": {
+                "direction": "left"
+              }
+            }
+          }
+        },
+        {
+          "step": 3,
+          "person": "R3",
+          "observation": {
+            "step": 3,
+            "case": "library",
+            "self": {
+              "id": "R3",
+              "role": "reader",
+              "position": [
+                3,
+                3
+              ],
+              "task": "read",
+              "status": "reading",
+              "needs_help": false,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R3",
+                "role": "reader",
+                "position": [
+                  3,
+                  3
+                ],
+                "status": "reading"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "read",
+              "arguments": {}
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"read\", \"arguments\": {}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R3\", \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R3\", \"needs_help\": false, \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\", \"task\": \"read\", \"work_left\": 0, \"workstation\": null}, \"step\": 3, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"read\",\"arguments\":{},\"reason\":\"I am at the reading place and my task is to read.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 244,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 61,
+              "output_tokens_details": {
+                "reasoning_tokens": 30
+              },
+              "total_tokens": 305
+            },
+            "response_id": "resp_071fabe8c70f63a4006ae65bc7c22881978f99a63e4b05e2f4",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "read",
+              "arguments": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "before": {
+        "step": 3,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              0,
+              1
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              3,
+              2
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 4,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              1,
+              1
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              3,
+              1
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "L1",
+          "action": "wait",
+          "rule": null,
+          "detail": "queue empty",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "move right",
+          "rule": "LIB_MOVE",
+          "detail": "(0, 1) -> (1, 1)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R2",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(3, 2) -> (3, 1)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "LIB_MOVE",
+        "LIB_MOVE",
+        "LIB_READ"
+      ],
+      "goal": false,
+      "chosen_actions": [
+        {
+          "person": "L1",
+          "action": "wait",
+          "rule": null,
+          "detail": "queue empty",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "move right",
+          "rule": "LIB_MOVE",
+          "detail": "(0, 1) -> (1, 1)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R2",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(3, 2) -> (3, 1)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "llm_calls": [
+        {
+          "step": 4,
+          "person": "R1",
+          "observation": {
+            "step": 4,
+            "case": "library",
+            "self": {
+              "id": "R1",
+              "role": "reader",
+              "position": [
+                0,
+                1
+              ],
+              "task": "get_help",
+              "status": "moving",
+              "needs_help": true,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R1",
+                "role": "reader",
+                "position": [
+                  0,
+                  1
+                ],
+                "status": "moving"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "right"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "down"
+              }
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"move\", \"arguments\": {\"direction\": \"up\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"right\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"down\"}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R1\", \"position\": [0, 1], \"role\": \"reader\", \"status\": \"moving\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R1\", \"needs_help\": true, \"position\": [0, 1], \"role\": \"reader\", \"status\": \"moving\", \"task\": \"get_help\", \"work_left\": 0, \"workstation\": null}, \"step\": 4, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"move\",\"arguments\":{\"direction\":\"right\"},\"reason\":\"Move toward the desk to get help.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 282,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 96,
+              "output_tokens_details": {
+                "reasoning_tokens": 67
+              },
+              "total_tokens": 378
+            },
+            "response_id": "resp_012475bc8eeff21c006ae65bc9b1bc8195b203a07bc9f23ed3",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "move",
+              "arguments": {
+                "direction": "right"
+              }
+            }
+          }
+        },
+        {
+          "step": 4,
+          "person": "R2",
+          "observation": {
+            "step": 4,
+            "case": "library",
+            "self": {
+              "id": "R2",
+              "role": "reader",
+              "position": [
+                3,
+                2
+              ],
+              "task": "get_help",
+              "status": "moving",
+              "needs_help": true,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R2",
+                "role": "reader",
+                "position": [
+                  3,
+                  2
+                ],
+                "status": "moving"
+              },
+              {
+                "id": "R3",
+                "role": "reader",
+                "position": [
+                  3,
+                  3
+                ],
+                "status": "reading"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "right"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "down"
+              }
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"move\", \"arguments\": {\"direction\": \"up\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"right\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"down\"}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R2\", \"position\": [3, 2], \"role\": \"reader\", \"status\": \"moving\"}, {\"id\": \"R3\", \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R2\", \"needs_help\": true, \"position\": [3, 2], \"role\": \"reader\", \"status\": \"moving\", \"task\": \"get_help\", \"work_left\": 0, \"workstation\": null}, \"step\": 4, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"move\",\"arguments\":{\"direction\":\"up\"},\"reason\":\"Move closer to the open desk to get help.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 310,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 131,
+              "output_tokens_details": {
+                "reasoning_tokens": 100
+              },
+              "total_tokens": 441
+            },
+            "response_id": "resp_03eca523666f9c08006ae65bcb99488194acab10b19cb35720",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            }
+          }
+        },
+        {
+          "step": 4,
+          "person": "R3",
+          "observation": {
+            "step": 4,
+            "case": "library",
+            "self": {
+              "id": "R3",
+              "role": "reader",
+              "position": [
+                3,
+                3
+              ],
+              "task": "read",
+              "status": "reading",
+              "needs_help": false,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R2",
+                "role": "reader",
+                "position": [
+                  3,
+                  2
+                ],
+                "status": "moving"
+              },
+              {
+                "id": "R3",
+                "role": "reader",
+                "position": [
+                  3,
+                  3
+                ],
+                "status": "reading"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "read",
+              "arguments": {}
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"read\", \"arguments\": {}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R2\", \"position\": [3, 2], \"role\": \"reader\", \"status\": \"moving\"}, {\"id\": \"R3\", \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R3\", \"needs_help\": false, \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\", \"task\": \"read\", \"work_left\": 0, \"workstation\": null}, \"step\": 4, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"read\",\"arguments\":{},\"reason\":\"My task is to read, and I am at the reading place.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 272,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 65,
+              "output_tokens_details": {
+                "reasoning_tokens": 33
+              },
+              "total_tokens": 337
+            },
+            "response_id": "resp_0819680ff222d4fa006ae65bcdf1788193b6d71b49f0fbe5d4",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "read",
+              "arguments": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "before": {
+        "step": 4,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              1,
+              1
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              3,
+              1
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 5,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              1,
+              0
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              2,
+              1
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "L1",
+          "action": "wait",
+          "rule": null,
+          "detail": "queue empty",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(1, 1) -> (1, 0)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R2",
+          "action": "move left",
+          "rule": "LIB_MOVE",
+          "detail": "(3, 1) -> (2, 1)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "LIB_MOVE",
+        "LIB_MOVE",
+        "LIB_READ"
+      ],
+      "goal": false,
+      "chosen_actions": [
+        {
+          "person": "L1",
+          "action": "wait",
+          "rule": null,
+          "detail": "queue empty",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(1, 1) -> (1, 0)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R2",
+          "action": "move left",
+          "rule": "LIB_MOVE",
+          "detail": "(3, 1) -> (2, 1)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "llm_calls": [
+        {
+          "step": 5,
+          "person": "R1",
+          "observation": {
+            "step": 5,
+            "case": "library",
+            "self": {
+              "id": "R1",
+              "role": "reader",
+              "position": [
+                1,
+                1
+              ],
+              "task": "get_help",
+              "status": "moving",
+              "needs_help": true,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R1",
+                "role": "reader",
+                "position": [
+                  1,
+                  1
+                ],
+                "status": "moving"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "left"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "right"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "down"
+              }
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"move\", \"arguments\": {\"direction\": \"up\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"left\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"right\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"down\"}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R1\", \"position\": [1, 1], \"role\": \"reader\", \"status\": \"moving\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R1\", \"needs_help\": true, \"position\": [1, 1], \"role\": \"reader\", \"status\": \"moving\", \"task\": \"get_help\", \"work_left\": 0, \"workstation\": null}, \"step\": 5, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"move\",\"arguments\":{\"direction\":\"up\"},\"reason\":\"Move closer to the open desk to get help.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 298,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 76,
+              "output_tokens_details": {
+                "reasoning_tokens": 45
+              },
+              "total_tokens": 374
+            },
+            "response_id": "resp_011ca480ff3d2872006ae65bcf8640819791815323dcd54005",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            }
+          }
+        },
+        {
+          "step": 5,
+          "person": "R2",
+          "observation": {
+            "step": 5,
+            "case": "library",
+            "self": {
+              "id": "R2",
+              "role": "reader",
+              "position": [
+                3,
+                1
+              ],
+              "task": "get_help",
+              "status": "moving",
+              "needs_help": true,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R2",
+                "role": "reader",
+                "position": [
+                  3,
+                  1
+                ],
+                "status": "moving"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "left"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "right"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "down"
+              }
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"move\", \"arguments\": {\"direction\": \"up\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"left\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"right\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"down\"}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R2\", \"position\": [3, 1], \"role\": \"reader\", \"status\": \"moving\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R2\", \"needs_help\": true, \"position\": [3, 1], \"role\": \"reader\", \"status\": \"moving\", \"task\": \"get_help\", \"work_left\": 0, \"workstation\": null}, \"step\": 5, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"move\",\"arguments\":{\"direction\":\"left\"},\"reason\":\"Moves closer to the help desk.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 298,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 95,
+              "output_tokens_details": {
+                "reasoning_tokens": 67
+              },
+              "total_tokens": 393
+            },
+            "response_id": "resp_0ff0b6ea5e22d56d006ae65bd143188193a79a9916a5ca67d4",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "move",
+              "arguments": {
+                "direction": "left"
+              }
+            }
+          }
+        },
+        {
+          "step": 5,
+          "person": "R3",
+          "observation": {
+            "step": 5,
+            "case": "library",
+            "self": {
+              "id": "R3",
+              "role": "reader",
+              "position": [
+                3,
+                3
+              ],
+              "task": "read",
+              "status": "reading",
+              "needs_help": false,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R3",
+                "role": "reader",
+                "position": [
+                  3,
+                  3
+                ],
+                "status": "reading"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "read",
+              "arguments": {}
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"read\", \"arguments\": {}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R3\", \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R3\", \"needs_help\": false, \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\", \"task\": \"read\", \"work_left\": 0, \"workstation\": null}, \"step\": 5, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"read\",\"arguments\":{},\"reason\":\"Reading is my assigned task.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 244,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 52,
+              "output_tokens_details": {
+                "reasoning_tokens": 28
+              },
+              "total_tokens": 296
+            },
+            "response_id": "resp_08b9a6742c935217006ae65bd34b6c8197a7f680d91fbe6c9e",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "read",
+              "arguments": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "step": 6,
+      "before": {
+        "step": 5,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              1,
+              0
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              2,
+              1
+            ],
+            "task": "get_help",
+            "status": "moving",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 6,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              2,
+              0
+            ],
+            "task": "get_help",
+            "status": "waiting",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              2,
+              0
+            ],
+            "task": "get_help",
+            "status": "waiting",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "R1",
+          "R2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "L1",
+          "action": "wait",
+          "rule": null,
+          "detail": "queue empty",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "move right",
+          "rule": "LIB_MOVE",
+          "detail": "(1, 0) -> (2, 0)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R2",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(2, 1) -> (2, 0)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "join queue",
+          "rule": "LIB_QUEUE",
+          "detail": "",
+          "partner": null,
+          "kind": "effect"
+        },
+        {
+          "person": "R2",
+          "action": "join queue",
+          "rule": "LIB_QUEUE",
+          "detail": "",
+          "partner": null,
+          "kind": "effect"
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "LIB_MOVE",
+        "LIB_MOVE",
+        "LIB_READ",
+        "LIB_QUEUE",
+        "LIB_QUEUE"
+      ],
+      "goal": false,
+      "chosen_actions": [
+        {
+          "person": "L1",
+          "action": "wait",
+          "rule": null,
+          "detail": "queue empty",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "move right",
+          "rule": "LIB_MOVE",
+          "detail": "(1, 0) -> (2, 0)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R2",
+          "action": "move up",
+          "rule": "LIB_MOVE",
+          "detail": "(2, 1) -> (2, 0)",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "llm_calls": [
+        {
+          "step": 6,
+          "person": "R1",
+          "observation": {
+            "step": 6,
+            "case": "library",
+            "self": {
+              "id": "R1",
+              "role": "reader",
+              "position": [
+                1,
+                0
+              ],
+              "task": "get_help",
+              "status": "moving",
+              "needs_help": true,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "L1",
+                "role": "librarian",
+                "position": [
+                  2,
+                  0
+                ],
+                "status": "available"
+              },
+              {
+                "id": "R1",
+                "role": "reader",
+                "position": [
+                  1,
+                  0
+                ],
+                "status": "moving"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "left"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "right"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "down"
+              }
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"move\", \"arguments\": {\"direction\": \"left\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"right\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"down\"}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"L1\", \"position\": [2, 0], \"role\": \"librarian\", \"status\": \"available\"}, {\"id\": \"R1\", \"position\": [1, 0], \"role\": \"reader\", \"status\": \"moving\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R1\", \"needs_help\": true, \"position\": [1, 0], \"role\": \"reader\", \"status\": \"moving\", \"task\": \"get_help\", \"work_left\": 0, \"workstation\": null}, \"step\": 6, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"move\",\"arguments\":{\"direction\":\"right\"},\"reason\":\"Move to the open desk beside the available librarian for help.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 312,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 81,
+              "output_tokens_details": {
+                "reasoning_tokens": 48
+              },
+              "total_tokens": 393
+            },
+            "response_id": "resp_0e7583a54be90e81006ae65bd47e108193924e1085f8de0fd1",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "move",
+              "arguments": {
+                "direction": "right"
+              }
+            }
+          }
+        },
+        {
+          "step": 6,
+          "person": "R2",
+          "observation": {
+            "step": 6,
+            "case": "library",
+            "self": {
+              "id": "R2",
+              "role": "reader",
+              "position": [
+                2,
+                1
+              ],
+              "task": "get_help",
+              "status": "moving",
+              "needs_help": true,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "L1",
+                "role": "librarian",
+                "position": [
+                  2,
+                  0
+                ],
+                "status": "available"
+              },
+              {
+                "id": "R2",
+                "role": "reader",
+                "position": [
+                  2,
+                  1
+                ],
+                "status": "moving"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "left"
+              }
+            },
+            {
+              "action": "move",
+              "arguments": {
+                "direction": "right"
+              }
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"move\", \"arguments\": {\"direction\": \"up\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"left\"}}, {\"action\": \"move\", \"arguments\": {\"direction\": \"right\"}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"L1\", \"position\": [2, 0], \"role\": \"librarian\", \"status\": \"available\"}, {\"id\": \"R2\", \"position\": [2, 1], \"role\": \"reader\", \"status\": \"moving\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R2\", \"needs_help\": true, \"position\": [2, 1], \"role\": \"reader\", \"status\": \"moving\", \"task\": \"get_help\", \"work_left\": 0, \"workstation\": null}, \"step\": 6, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"move\",\"arguments\":{\"direction\":\"up\"},\"reason\":\"Move to the open desk to get help from the available librarian.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 312,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 143,
+              "output_tokens_details": {
+                "reasoning_tokens": 109
+              },
+              "total_tokens": 455
+            },
+            "response_id": "resp_0511af0f595527aa006ae65bd63e7c8197bbe580c656eebc04",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "move",
+              "arguments": {
+                "direction": "up"
+              }
+            }
+          }
+        },
+        {
+          "step": 6,
+          "person": "R3",
+          "observation": {
+            "step": 6,
+            "case": "library",
+            "self": {
+              "id": "R3",
+              "role": "reader",
+              "position": [
+                3,
+                3
+              ],
+              "task": "read",
+              "status": "reading",
+              "needs_help": false,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R3",
+                "role": "reader",
+                "position": [
+                  3,
+                  3
+                ],
+                "status": "reading"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "read",
+              "arguments": {}
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"read\", \"arguments\": {}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R3\", \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R3\", \"needs_help\": false, \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\", \"task\": \"read\", \"work_left\": 0, \"workstation\": null}, \"step\": 6, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"read\",\"arguments\":{},\"reason\":\"Reading is my assigned task.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 244,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 62,
+              "output_tokens_details": {
+                "reasoning_tokens": 38
+              },
+              "total_tokens": 306
+            },
+            "response_id": "resp_0afe0a51c70a69b9006ae65bdacfe0819585d1005e3a406987",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "read",
+              "arguments": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "step": 7,
+      "before": {
+        "step": 6,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              2,
+              0
+            ],
+            "task": "get_help",
+            "status": "waiting",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              2,
+              0
+            ],
+            "task": "get_help",
+            "status": "waiting",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "R1",
+          "R2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 7,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              2,
+              0
+            ],
+            "task": "get_help",
+            "status": "served",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": 6,
+            "served_step": 7,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              2,
+              0
+            ],
+            "task": "get_help",
+            "status": "waiting",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "R2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 1,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "L1",
+          "action": "serve",
+          "rule": "LIB_SERVE",
+          "detail": "R1",
+          "partner": "R1",
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "stay",
+          "rule": null,
+          "detail": "already served",
+          "partner": null,
+          "kind": "state"
+        },
+        {
+          "person": "R2",
+          "action": "wait",
+          "rule": null,
+          "detail": "in queue",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "interactions": [
+        {
+          "from": "L1",
+          "to": "R1",
+          "action": "serve"
+        }
+      ],
+      "rule_ids": [
+        "LIB_SERVE",
+        "LIB_READ"
+      ],
+      "goal": false,
+      "chosen_actions": [
+        {
+          "person": "L1",
+          "action": "serve",
+          "rule": "LIB_SERVE",
+          "detail": "R1",
+          "partner": "R1",
+          "kind": "action"
+        },
+        {
+          "person": "R2",
+          "action": "wait",
+          "rule": null,
+          "detail": "in queue",
+          "partner": null,
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "llm_calls": [
+        {
+          "step": 7,
+          "person": "L1",
+          "observation": {
+            "step": 7,
+            "case": "library",
+            "self": {
+              "id": "L1",
+              "role": "librarian",
+              "position": [
+                2,
+                0
+              ],
+              "task": "serve_readers",
+              "status": "available",
+              "needs_help": false,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "L1",
+                "role": "librarian",
+                "position": [
+                  2,
+                  0
+                ],
+                "status": "available"
+              },
+              {
+                "id": "R1",
+                "role": "reader",
+                "position": [
+                  2,
+                  0
+                ],
+                "status": "waiting"
+              },
+              {
+                "id": "R2",
+                "role": "reader",
+                "position": [
+                  2,
+                  0
+                ],
+                "status": "waiting"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "serve",
+              "arguments": {
+                "person": "R1"
+              }
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"serve\", \"arguments\": {\"person\": \"R1\"}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"L1\", \"position\": [2, 0], \"role\": \"librarian\", \"status\": \"available\"}, {\"id\": \"R1\", \"position\": [2, 0], \"role\": \"reader\", \"status\": \"waiting\"}, {\"id\": \"R2\", \"position\": [2, 0], \"role\": \"reader\", \"status\": \"waiting\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"L1\", \"needs_help\": false, \"position\": [2, 0], \"role\": \"librarian\", \"status\": \"available\", \"task\": \"serve_readers\", \"work_left\": 0, \"workstation\": null}, \"step\": 7, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"serve\",\"arguments\":{\"person\":\"R1\"},\"reason\":\"R1 is waiting and the desk is open.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 312,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 55,
+              "output_tokens_details": {
+                "reasoning_tokens": 23
+              },
+              "total_tokens": 367
+            },
+            "response_id": "resp_057a1bfc83266775006ae65bdc352c8194bdde81a3aa25fc92",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "serve",
+              "arguments": {
+                "person": "R1"
+              }
+            }
+          }
+        },
+        {
+          "step": 7,
+          "person": "R3",
+          "observation": {
+            "step": 7,
+            "case": "library",
+            "self": {
+              "id": "R3",
+              "role": "reader",
+              "position": [
+                3,
+                3
+              ],
+              "task": "read",
+              "status": "reading",
+              "needs_help": false,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R3",
+                "role": "reader",
+                "position": [
+                  3,
+                  3
+                ],
+                "status": "reading"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "read",
+              "arguments": {}
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"read\", \"arguments\": {}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R3\", \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R3\", \"needs_help\": false, \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\", \"task\": \"read\", \"work_left\": 0, \"workstation\": null}, \"step\": 7, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"read\",\"arguments\":{},\"reason\":\"My assigned task is to read, and I am already at the reading area.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 244,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 67,
+              "output_tokens_details": {
+                "reasoning_tokens": 33
+              },
+              "total_tokens": 311
+            },
+            "response_id": "resp_0427823132d3c9d7006ae65bdd744881948c067614427d7abf",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "read",
+              "arguments": {}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "step": 8,
+      "before": {
+        "step": 7,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              2,
+              0
+            ],
+            "task": "get_help",
+            "status": "served",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": 6,
+            "served_step": 7,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              2,
+              0
+            ],
+            "task": "get_help",
+            "status": "waiting",
+            "needs_help": true,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "R2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 1,
+        "completed": 0
+      },
+      "after": {
+        "step": 8,
+        "people": {
+          "L1": {
+            "id": "L1",
+            "role": "librarian",
+            "position": [
+              2,
+              0
+            ],
+            "task": "serve_readers",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "R1": {
+            "id": "R1",
+            "role": "reader",
+            "position": [
+              2,
+              0
+            ],
+            "task": "get_help",
+            "status": "served",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": 6,
+            "served_step": 7,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "R2": {
+            "id": "R2",
+            "role": "reader",
+            "position": [
+              2,
+              0
+            ],
+            "task": "get_help",
+            "status": "served",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": 6,
+            "served_step": 8,
+            "completed_step": null,
+            "wait_steps": 2
+          },
+          "R3": {
+            "id": "R3",
+            "role": "reader",
+            "position": [
+              3,
+              3
+            ],
+            "task": "read",
+            "status": "reading",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 0,
+        "tools_at_counter": 0,
+        "served": 2,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "L1",
+          "action": "serve",
+          "rule": "LIB_SERVE",
+          "detail": "R2",
+          "partner": "R2",
+          "kind": "action"
+        },
+        {
+          "person": "R1",
+          "action": "stay",
+          "rule": null,
+          "detail": "already served",
+          "partner": null,
+          "kind": "state"
+        },
+        {
+          "person": "R2",
+          "action": "stay",
+          "rule": null,
+          "detail": "already served",
+          "partner": null,
+          "kind": "state"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "interactions": [
+        {
+          "from": "L1",
+          "to": "R2",
+          "action": "serve"
+        }
+      ],
+      "rule_ids": [
+        "LIB_SERVE",
+        "LIB_READ"
+      ],
+      "goal": true,
+      "chosen_actions": [
+        {
+          "person": "L1",
+          "action": "serve",
+          "rule": "LIB_SERVE",
+          "detail": "R2",
+          "partner": "R2",
+          "kind": "action"
+        },
+        {
+          "person": "R3",
+          "action": "read",
+          "rule": "LIB_READ",
+          "detail": "",
+          "partner": null,
+          "kind": "action"
+        }
+      ],
+      "llm_calls": [
+        {
+          "step": 8,
+          "person": "L1",
+          "observation": {
+            "step": 8,
+            "case": "library",
+            "self": {
+              "id": "L1",
+              "role": "librarian",
+              "position": [
+                2,
+                0
+              ],
+              "task": "serve_readers",
+              "status": "available",
+              "needs_help": false,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "L1",
+                "role": "librarian",
+                "position": [
+                  2,
+                  0
+                ],
+                "status": "available"
+              },
+              {
+                "id": "R1",
+                "role": "reader",
+                "position": [
+                  2,
+                  0
+                ],
+                "status": "served"
+              },
+              {
+                "id": "R2",
+                "role": "reader",
+                "position": [
+                  2,
+                  0
+                ],
+                "status": "waiting"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "serve",
+              "arguments": {
+                "person": "R2"
+              }
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"serve\", \"arguments\": {\"person\": \"R2\"}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"L1\", \"position\": [2, 0], \"role\": \"librarian\", \"status\": \"available\"}, {\"id\": \"R1\", \"position\": [2, 0], \"role\": \"reader\", \"status\": \"served\"}, {\"id\": \"R2\", \"position\": [2, 0], \"role\": \"reader\", \"status\": \"waiting\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"L1\", \"needs_help\": false, \"position\": [2, 0], \"role\": \"librarian\", \"status\": \"available\", \"task\": \"serve_readers\", \"work_left\": 0, \"workstation\": null}, \"step\": 8, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"serve\",\"arguments\":{\"person\":\"R2\"},\"reason\":\"R2 is waiting at the open desk.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 312,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 49,
+              "output_tokens_details": {
+                "reasoning_tokens": 18
+              },
+              "total_tokens": 361
+            },
+            "response_id": "resp_02dc6855e65b7446006ae65be36b98819682ca74164c889345",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "serve",
+              "arguments": {
+                "person": "R2"
+              }
+            }
+          }
+        },
+        {
+          "step": 8,
+          "person": "R3",
+          "observation": {
+            "step": 8,
+            "case": "library",
+            "self": {
+              "id": "R3",
+              "role": "reader",
+              "position": [
+                3,
+                3
+              ],
+              "task": "read",
+              "status": "reading",
+              "needs_help": false,
+              "has_tool": false,
+              "work_left": 0,
+              "workstation": null
+            },
+            "places": {
+              "desk": [
+                2,
+                0
+              ],
+              "reading": [
+                3,
+                3
+              ]
+            },
+            "nearby_people": [
+              {
+                "id": "R3",
+                "role": "reader",
+                "position": [
+                  3,
+                  3
+                ],
+                "status": "reading"
+              }
+            ],
+            "desk_open": true,
+            "tools_at_counter": 0,
+            "queue_ahead": null
+          },
+          "allowed": [
+            {
+              "action": "read",
+              "arguments": {}
+            },
+            {
+              "action": "wait",
+              "arguments": {}
+            }
+          ],
+          "llm": {
+            "prompt": "Act as one person in the supplied grid world. Use only the observations and allowed actions provided. Choose one action that advances your assigned task and respects the world rules. Return JSON with action, arguments, and a short reason. Do not invent observations or describe a sequence of future actions.\n{\"allowed_actions\": [{\"action\": \"read\", \"arguments\": {}}, {\"action\": \"wait\", \"arguments\": {}}], \"observation\": {\"case\": \"library\", \"desk_open\": true, \"nearby_people\": [{\"id\": \"R3\", \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\"}], \"places\": {\"desk\": [2, 0], \"reading\": [3, 3]}, \"queue_ahead\": null, \"self\": {\"has_tool\": false, \"id\": \"R3\", \"needs_help\": false, \"position\": [3, 3], \"role\": \"reader\", \"status\": \"reading\", \"task\": \"read\", \"work_left\": 0, \"workstation\": null}, \"step\": 8, \"tools_at_counter\": 0}}",
+            "response": "{\"action\":\"read\",\"arguments\":{},\"reason\":\"My task is to read, and I am already at the reading area.\"}",
+            "model": "gpt-6-luna",
+            "settings": {
+              "reasoning": "low",
+              "temperature": null,
+              "max_output_tokens": 300
+            },
+            "usage": {
+              "input_tokens": 244,
+              "input_tokens_details": {
+                "cached_tokens": 0,
+                "cache_write_tokens": 0
+              },
+              "output_tokens": 76,
+              "output_tokens_details": {
+                "reasoning_tokens": 43
+              },
+              "total_tokens": 320
+            },
+            "response_id": "resp_0a0bfba8a1b8a6ef006ae65be487408194a0aa584bc45b509a",
+            "status": "completed",
+            "incomplete_details": null,
+            "validation_error": null,
+            "applied_action": {
+              "action": "read",
+              "arguments": {}
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "result": {
+    "goal": true,
+    "steps": 8,
+    "people": {
+      "L1": {
+        "id": "L1",
+        "role": "librarian",
+        "position": [
+          2,
+          0
+        ],
+        "task": "serve_readers",
+        "status": "available",
+        "needs_help": false,
+        "has_tool": false,
+        "work_left": 0,
+        "urgency": 0.0,
+        "workstation": null,
+        "arrival_step": null,
+        "served_step": null,
+        "completed_step": null,
+        "wait_steps": 0
+      },
+      "R1": {
+        "id": "R1",
+        "role": "reader",
+        "position": [
+          2,
+          0
+        ],
+        "task": "get_help",
+        "status": "served",
+        "needs_help": false,
+        "has_tool": false,
+        "work_left": 0,
+        "urgency": 0.0,
+        "workstation": null,
+        "arrival_step": 6,
+        "served_step": 7,
+        "completed_step": null,
+        "wait_steps": 1
+      },
+      "R2": {
+        "id": "R2",
+        "role": "reader",
+        "position": [
+          2,
+          0
+        ],
+        "task": "get_help",
+        "status": "served",
+        "needs_help": false,
+        "has_tool": false,
+        "work_left": 0,
+        "urgency": 0.0,
+        "workstation": null,
+        "arrival_step": 6,
+        "served_step": 8,
+        "completed_step": null,
+        "wait_steps": 2
+      },
+      "R3": {
+        "id": "R3",
+        "role": "reader",
+        "position": [
+          3,
+          3
+        ],
+        "task": "read",
+        "status": "reading",
+        "needs_help": false,
+        "has_tool": false,
+        "work_left": 0,
+        "urgency": 0.0,
+        "workstation": null,
+        "arrival_step": null,
+        "served_step": null,
+        "completed_step": null,
+        "wait_steps": 0
+      }
+    }
+  }
+}
