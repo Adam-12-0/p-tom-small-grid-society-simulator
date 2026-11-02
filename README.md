@@ -2,6 +2,8 @@
 
 This is the first working version of the P-ToM grid society idea. It puts a few people in a small place, gives each person a task, and shows what happens one step at a time. The first two places are a library and a workshop. The rules are simple enough to inspect by hand. The goal is to see the world change, check that the rules work, and create a starting point for later P-ToM experiments.
 
+The broader P-ToM proposal asks how people interpret information, update beliefs, and affect one another. This grid world does not yet model those processes. It gives us a controlled place to define individual states, interactions, rules, and a group goal. We can compare a baseline with one changed value, then use the saved trace to explain what happened. The library is the first case we will examine closely before adding information sharing or beliefs.
+
 The main result so far is that both worlds run from start to finish with manual rules. A small probabilistic soft logic (PSL) policy also runs in the workshop. Azure GPT-6 Luna can choose actions for the people. It completed the library task in the saved run, but did not complete the workshop task within its 40-step limit. These are checks of this small simulator. They are not evidence that it predicts real human behavior.
 
 ## Start by watching a saved run
@@ -42,6 +44,14 @@ The program prints and saves the starting world as step 0. It checks whether the
 
 The `Actions and events` section in the text trace includes voluntary actions and automatic effects. For example, `move up` is a reader’s action, while `join queue` is the effect of arriving at the desk. The saved JSON marks those separately. `State changes` lists the values that actually changed between the before and after states.
 
+## Where PSL fits
+
+Probabilistic soft logic (PSL) combines weighted rules to infer a score when evidence can pull a decision in different directions. A rule weight expresses influence on that score. It is not the probability that a person will act.
+
+The workshop’s PSL policy uses two weighted rules. Higher urgency pushes a waiting worker’s priority up with weight 3. A second rule pushes priority down with weight 1. The official PSL inference engine balances them. With the assigned urgencies, W1 receives a score near 0.600 and W2 near 0.375. These numbers are queue decision scores, not probabilities of being served. Both workers reach the counter together in this case, so W1 is first under either queue policy.
+
+PSL is used only for workshop queue priority in this version. The library follows the manual movement, queue, and service rules described above. If we later use PSL there, we need to specify what it infers and make its result affect an actual action. The rule names in the case file do not yet control the simulation, so an LLM-drafted rule would need to be inspected, accepted, and made executable before we could test its effect.
+
 ## Results from the saved runs
 
 | Run | Goal result | What happened |
@@ -55,8 +65,6 @@ The `Actions and events` section in the text trace includes voluntary actions an
 | Workshop, Azure agent policy | Not reached by step 40 | The model made 80 choices. Four were invalid and became waits. W1 finished its work but had not returned the drill. W2 had not received a drill. |
 
 The two manual library runs show the effect of the desk closure in this encoded world. The two manual workshop runs show the effect of starting with one more drill. The Azure workshop result shows a limitation of that single model run: its action choices did not finish the task in time. It does not tell us how often the model would succeed across repeated runs. Both Azure runs were replayed from their saved responses. Each replay produced the same actions and final state without another API call.
-
-The workshop’s PSL policy uses two weighted rules. Higher urgency pushes a waiting worker’s priority up with weight 3. A second rule pushes priority down with weight 1. The official PSL inference engine balances them. With the assigned urgencies, W1 receives a score near 0.600 and W2 near 0.375. These numbers are queue decision scores, not probabilities of being served. Both workers reach the counter together in this case, so W1 is first under either queue policy.
 
 A high-reasoning Azure call also proposed one replacement movement rule for the workshop. The program checked its field names and action, then compared it with the manual run. It matched 12 worker movement decisions in that one reference case. The proposal is saved in `runs/workshop-rule-proposal-validated.json`. It is not installed as a live rule, and this check does not show that it works in new worlds.
 
@@ -135,4 +143,4 @@ Eleven tests passed on this setup. The final saved traces were also checked for 
 
 The copied [Small Grid Society Simulator Plan](<P-ToM Small Grid Society Simulator Plan.docx>) is the implementation plan for this folder. The copied [Broader Modeling Framework](<P-ToM Broader Modeling Framework.docx>) explains the larger P-ToM goal, including beliefs, communication, and theory of mind. The advisor meeting transcript and whiteboard remain at their original OneDrive locations and were not copied here.
 
-The next research step would be to choose more case variations before looking at model results, then run repeated manual and model comparisons. Beliefs about other people, a social network that persists over time, and real-world validation belong to later versions. This first version focuses on making the starting worlds visible, repeatable, and easy to check.
+The [Research Notes and Library Example](<P-ToM Research Notes and Library Example.docx>) give more context and walk through the library society, its starting values, rules, baseline, and desk closure. The immediate next step is to make accepted rules executable as simulation inputs and test them in this focused case. Information sharing, beliefs about other people, and real-world validation belong to later versions.
