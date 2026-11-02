@@ -2,8 +2,6 @@
 
 This is the first working version of the P-ToM grid society idea. It puts a few people in a small place, gives each person a task, and shows what happens one step at a time. The first two places are a library and a workshop. The rules are simple enough to inspect by hand. The goal is to see the world change, check that the rules work, and create a starting point for later P-ToM experiments.
 
-The broader P-ToM proposal asks how people interpret information, update beliefs, and affect one another. This grid world does not yet model those processes. It gives us a controlled place to define individual states, interactions, rules, and a group goal. We can compare a baseline with one changed value, then use the saved trace to explain what happened. The library is the first case we will examine closely before adding information sharing or beliefs.
-
 The main result so far is that both worlds run from start to finish with manual rules. A small probabilistic soft logic (PSL) policy also runs in the workshop. Azure GPT-6 Luna can choose actions for the people. It completed the library task in the saved run, but did not complete the workshop task within its 40-step limit. These are checks of this small simulator. They are not evidence that it predicts real human behavior.
 
 ## Start by watching a saved run
@@ -22,9 +20,90 @@ A cell is an (x, y) position. x increases to the right and y increases downward.
 
 ### Library
 
-The library has a help desk at (2, 0), one blocked shelf cell at (2, 2), one librarian, and three readers. R1 and R2 need help. R3 keeps reading. Readers who need help move toward the desk along a shortest path. If two paths are equally short, the manual policy tries up, left, right, then down. A reader who arrives at the desk joins a queue and cannot be served until the next step. The librarian serves at most one queued reader per step while the desk is open. Readers who arrive together are ordered by ID.
+Suppose a librarian is working at a help desk while two readers need assistance. A third reader is already reading. The case file supplies their starting values. The simulator then records how those values change at each step.
 
-The library goal is to serve the two readers who initially need help within 12 steps. There are two saved versions. In one, the desk stays open. In the other, it closes during steps 6, 7, and 8, then opens again at step 9. This changes only the desk schedule. It does not change how service works.
+This is the library at **step 0**, before anyone acts. Coordinates use `(x, y)`, with `x` increasing to the right and `y` increasing downward.
+
+```text
+        x0     x1     x2     x3     x4
+y0       .      .    L1/D      .      .
+y1       .      .      .       .      .
+y2       .      .      #       .      .
+y3       .      .      .     R3/R     .
+y4      R1      .      .       .     R2
+```
+
+`D` is the help desk at `(2, 0)`, `R` is the reading place at `(3, 3)`, and `#` is a blocked shelf at `(2, 2)`. A label such as `L1/D` means that L1 occupies the desk cell. People may share a walkable cell, so the queue records service order rather than separate waiting positions.
+
+#### Individual state
+
+Each person has the fields below. The table shows the value type and what it means in this library. Coordinates are pairs of integers. In JSON they are written as two-element arrays.
+
+| Field | Type | Meaning and initial example |
+| --- | --- | --- |
+| `id` | string | Stable person ID, such as `R1`. |
+| `role` | string | `librarian` or `reader`. |
+| `position` | pair of integers | Current `[x, y]` cell, such as `[0, 4]`. |
+| `task` | string | `serve_readers`, `get_help`, or `read`. |
+| `status` | string | Starts as `available`, `moving`, or `reading`; a reader can later be `waiting` or `served`. |
+| `needs_help` | Boolean | `true` for R1 and R2; `false` for R3. It becomes `false` when a reader is served. |
+| `arrival_step` | integer or `null` | Starts as `null`; set to the step when the reader joins the queue. |
+| `served_step` | integer or `null` | Starts as `null`; set to the step when service occurs. |
+| `wait_steps` | integer | Starts at `0`; after service, `served_step - arrival_step`. |
+
+The starting values for the four people are:
+
+| Person | Role | Position | Task | Status | `needs_help` |
+| --- | --- | --- | --- | --- | --- |
+| L1 | librarian | `[2, 0]` | `serve_readers` | `available` | `false` |
+| R1 | reader | `[0, 4]` | `get_help` | `moving` | `true` |
+| R2 | reader | `[4, 4]` | `get_help` | `moving` | `true` |
+| R3 | reader | `[3, 3]` | `read` | `reading` | `false` |
+
+`arrival_step` and `served_step` are `null` for everyone at step 0, and `wait_steps` is `0`. The saved state also includes shared person fields used by the workshop, such as `has_tool` and `work_left`. They stay at their defaults in the library.
+
+#### Society and goal state
+
+The case configuration describes the grid and fixed settings. The run state holds values that change as the simulation advances.
+
+| Key | Type | Library value at step 0 | Role |
+| --- | --- | --- | --- |
+| `case` | string | `library` | Selects the library behavior. |
+| `people` | list of person objects in the case; ID-keyed map in a saved state | L1, R1, R2, R3 | The individuals described above. |
+| `policy` | string | `manual` | Selects manual or Azure choices for this case. |
+| `rules` | list of rule ID strings | `LIB_MOVE`, `LIB_QUEUE`, `LIB_SERVE`, `LIB_READ` | Descriptive names; this list does not currently control execution. |
+| `width`, `height` | integers | `5`, `5` | Grid size from the case file. |
+| `blocked` | list of coordinate pairs | `[[2, 2]]` | Cells no one can enter. |
+| `places` | map from names to coordinate pairs | `desk: [2, 0]`, `reading: [3, 3]` | Named locations. |
+| `desk_open` | Boolean | `true` | Whether the librarian can serve someone this step. |
+| `queue` | list of person IDs | `[]` | Readers waiting for service, in order. |
+| `step` | integer | `0` | Current committed step. |
+| `served` | integer | `0` | Derived count of people with a non-`null` `served_step`. |
+| `scheduled_changes` | list of event objects | `[]` | Changes applied at specified steps; used for the desk closure. |
+
+The library goal is `{"type": "readers_served", "count": 2}`, with `step_limit: 12`. The goal check is true when at least two people have a non-`null` `served_step`. In this case those people are R1 and R2, the two readers who start needing help. Each trace record saves this result as a Boolean `goal` value. The run stops when the goal is reached or after step 12.
+
+#### Manual library rules
+
+These are the rules used by the built-in manual policy. Each rule has a condition and an effect, so it can be checked against the trace.
+
+1. **`LIB_MOVE`:** If a reader still needs help, is not queued, and has not reached the desk, move one cell along a shortest walkable path to `(2, 0)`. For equally short paths, try up, left, right, then down. A move cannot leave the grid or enter the blocked shelf.
+2. **`LIB_QUEUE`:** If a reader who needs help reaches the desk, append their ID to `queue`, set `status="waiting"`, and set `arrival_step` to the current step. The new arrival is eligible for service from the next step onward. Readers arriving together are ordered by ID.
+3. **`LIB_SERVE`:** If `desk_open=true` and the queue was nonempty at the start of the step, serve its first reader. Remove that ID from `queue`, set `needs_help=false` and `status="served"`, and record `served_step` and `wait_steps`. At most one reader is served per step.
+4. **`LIB_READ`:** If a reader does not need help and is already reading, keep reading. R3 stays at the reading place in these runs.
+
+The available choices and automatic effects are different things:
+
+| Item | Who or what uses it | Effect |
+| --- | --- | --- |
+| `move(direction)` | Reader | Moves one legal cell. The manual policy picks a shortest-path move; the Azure policy may choose any legal neighboring cell. |
+| `wait` | Reader or librarian | Uses the step without moving or serving. |
+| `read` | Reading reader | Continues reading, with no state change. |
+| `serve(person)` | Librarian | Serves the first previously queued reader when the desk is open. |
+| `join queue` | Automatic arrival effect | Adds a reader to the queue after reaching the desk; it is not a separate model choice. |
+| `desk_open` change | Scheduled world event | Changes the desk state before actions for that step. |
+
+The baseline leaves the desk open. R1 and R2 reach it at step 6, R1 is served at step 7, and R2 at step 8. Their waits are one and two steps. The paired run changes only the desk schedule: `desk_open=false` at step 6 and `desk_open=true` at step 9. The desk is therefore closed during steps 6, 7, and 8. The readers still arrive and queue at step 6. They are served at steps 9 and 10, with waits of three and four steps. The goal is met in both runs, but two steps later with the closure. These are results of the encoded rules, not claims about real library visitors.
 
 ### Workshop
 
@@ -32,13 +111,28 @@ The workshop has a tool counter at (2, 0), one storekeeper, and two workers. Eac
 
 The workshop goal is to finish both jobs and return every drill within 40 steps. One saved version starts with one drill. Another starts with two. At every committed step, the program checks that the number of drills at the counter plus the number held by workers equals the configured total. No worker can hold a drill that does not exist.
 
+The workshop uses the same `id`, `role`, `position`, `task`, `status`, and step fields. Its additional state is:
+
+| Field | Type | Starting value or meaning |
+| --- | --- | --- |
+| `has_tool` | Boolean per person | `false` for W1 and W2; becomes `true` when a drill is loaned. |
+| `work_left` | integer per worker | `2` for each worker; decreases by one for each work step. |
+| `urgency` | number from 0 to 1 per worker | `0.8` for W1, `0.5` for W2; used by the PSL priority policy. |
+| `workstation` | coordinate pair per worker | `[0, 4]` for W1, `[4, 4]` for W2. |
+| `completed_step` | integer or `null` per person | Starts `null`; set when a worker returns the drill after finishing. |
+| `tool_count`, `tools_at_counter` | integers for the world | Both start at `1` in the one-drill case. |
+| `queue`, `return_queue` | lists of person IDs | Both start empty; they hold workers waiting to borrow or return a drill. |
+| `completed` | integer for the world | Derived count of people with a non-`null` `completed_step`. |
+
+The goal is `{"type": "jobs_completed", "count": 2, "all_tools_returned": true}`, with `step_limit: 40`. It requires two completed jobs and all configured drills back at the counter. In the two-drill case, `tool_count` and `tools_at_counter` both start at `2`.
+
 ## What one step means
 
 The program prints and saves the starting world as step 0. It checks whether the goal is already reached. For each later step, it follows this order:
 
 1. Apply any scheduled change, such as closing the desk or adding a drill.
 2. Find the actions that are allowed from the current world.
-3. Choose one action per person. The manual policy uses the written rules. The Azure policy asks the model to choose from a list of legal actions.
+3. Choose one action per person. The manual policy uses behavior implemented in code. The Azure policy asks the model to choose from a list of legal actions.
 4. Apply actions and their effects. Service and handover decisions use the queue as it stood at the start of the step. New arrivals enter for the next step.
 5. Check the grid and drill rules, update the goal, print the new world, and save the full state.
 
@@ -49,6 +143,15 @@ The `Actions and events` section in the text trace includes voluntary actions an
 Probabilistic soft logic (PSL) combines weighted rules to infer a score when evidence can pull a decision in different directions. A rule weight expresses influence on that score. It is not the probability that a person will act.
 
 The workshop’s PSL policy uses two weighted rules. Higher urgency pushes a waiting worker’s priority up with weight 3. A second rule pushes priority down with weight 1. The official PSL inference engine balances them. With the assigned urgencies, W1 receives a score near 0.600 and W2 near 0.375. These numbers are queue decision scores, not probabilities of being served. Both workers reach the counter together in this case, so W1 is first under either queue policy.
+
+The two rules passed to PSL are:
+
+```text
+3: Waiting(W) & Urgency(W) -> Priority(W) ^2
+1: !Priority(W) ^2
+```
+
+`Waiting` is observed as `1.0` for each queued worker. `Urgency` comes from each worker’s state (`0.8` for W1 and `0.5` for W2). PSL infers `Priority`, and the worker with the higher score goes first.
 
 PSL is used only for workshop queue priority in this version. The library follows the manual movement, queue, and service rules described above. If we later use PSL there, we need to specify what it infers and make its result affect an actual action. The rule names in the case file do not yet control the simulation, so an LLM-drafted rule would need to be inspected, accepted, and made executable before we could test its effect.
 
