@@ -1,2 +1,4 @@
-openai==2.17.0
 pslpython==2.4.1
+pyqtgraph>=0.13,<0.15
+PyQt6>=6.5
+jupyter>=1.0

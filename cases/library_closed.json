@@ -1,6 +1,0 @@
-{
-  "extends":"library.json", "scheduled_changes":[
-    {"step":6,"field":"desk_open","value":false},
-    {"step":9,"field":"desk_open","value":true}
-  ]
-}
