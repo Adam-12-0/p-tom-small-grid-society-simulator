@@ -1,0 +1,146 @@
+{
+  "note": "Illustrative sensitivity check, not fitted or validated weights.",
+  "variants": {
+    "reference": {
+      "changed_weights": {},
+      "cases": {
+        "election_turnout": {
+          "turnout": 0.25,
+          "aware_mean": 0.34298540674375005,
+          "aware_count_ge_half": 5,
+          "shares": 3,
+          "moves": 30,
+          "votes": 4,
+          "first_goal_step": null
+        },
+        "election_turnout_reminder": {
+          "turnout": 0.25,
+          "aware_mean": 0.6899656681249999,
+          "aware_count_ge_half": 11,
+          "shares": 7,
+          "moves": 30,
+          "votes": 4,
+          "first_goal_step": null
+        },
+        "election_turnout_reminder_access": {
+          "turnout": 0.4375,
+          "aware_mean": 0.6899937801249999,
+          "aware_count_ge_half": 11,
+          "shares": 7,
+          "moves": 51,
+          "votes": 7,
+          "first_goal_step": null
+        }
+      }
+    },
+    "stronger_diffusion": {
+      "changed_weights": {
+        "SharePrev(P) & Contact(P,Q) & Trust(Q,P) -> Aware(Q)": 8,
+        "Aware(P) & Reach(P) -> ShareNow(P)": 6
+      },
+      "cases": {
+        "election_turnout": {
+          "turnout": 0.25,
+          "aware_mean": 0.36444881025,
+          "aware_count_ge_half": 7,
+          "shares": 3,
+          "moves": 30,
+          "votes": 4,
+          "first_goal_step": null
+        },
+        "election_turnout_reminder": {
+          "turnout": 0.25,
+          "aware_mean": 0.7642994687500001,
+          "aware_count_ge_half": 14,
+          "shares": 10,
+          "moves": 30,
+          "votes": 4,
+          "first_goal_step": null
+        },
+        "election_turnout_reminder_access": {
+          "turnout": 0.4375,
+          "aware_mean": 0.764299466875,
+          "aware_count_ge_half": 14,
+          "shares": 10,
+          "moves": 51,
+          "votes": 7,
+          "first_goal_step": null
+        }
+      }
+    },
+    "stronger_action": {
+      "changed_weights": {
+        "Aware(P) & Interest(P) -> Intent(P)": 6,
+        "Intent(P) & Access(P) & Registered(P) & !VotedPrev(P) -> Travel(P)": 7,
+        "AtPoll(P) & Intent(P) & Registered(P) & !VotedPrev(P) -> VoteNow(P)": 7
+      },
+      "cases": {
+        "election_turnout": {
+          "turnout": 0.4375,
+          "aware_mean": 0.344169319125,
+          "aware_count_ge_half": 5,
+          "shares": 3,
+          "moves": 55,
+          "votes": 7,
+          "first_goal_step": null
+        },
+        "election_turnout_reminder": {
+          "turnout": 0.4375,
+          "aware_mean": 0.6902009960625001,
+          "aware_count_ge_half": 11,
+          "shares": 7,
+          "moves": 55,
+          "votes": 7,
+          "first_goal_step": null
+        },
+        "election_turnout_reminder_access": {
+          "turnout": 0.5625,
+          "aware_mean": 0.6901803765000001,
+          "aware_count_ge_half": 11,
+          "shares": 7,
+          "moves": 68,
+          "votes": 9,
+          "first_goal_step": null
+        }
+      }
+    },
+    "combined": {
+      "changed_weights": {
+        "SharePrev(P) & Contact(P,Q) & Trust(Q,P) -> Aware(Q)": 8,
+        "Aware(P) & Reach(P) -> ShareNow(P)": 6,
+        "Aware(P) & Interest(P) -> Intent(P)": 6,
+        "Intent(P) & Access(P) & Registered(P) & !VotedPrev(P) -> Travel(P)": 7,
+        "AtPoll(P) & Intent(P) & Registered(P) & !VotedPrev(P) -> VoteNow(P)": 7
+      },
+      "cases": {
+        "election_turnout": {
+          "turnout": 0.4375,
+          "aware_mean": 0.36474246128125,
+          "aware_count_ge_half": 7,
+          "shares": 3,
+          "moves": 55,
+          "votes": 7,
+          "first_goal_step": null
+        },
+        "election_turnout_reminder": {
+          "turnout": 0.4375,
+          "aware_mean": 0.7641558131249999,
+          "aware_count_ge_half": 14,
+          "shares": 10,
+          "moves": 55,
+          "votes": 7,
+          "first_goal_step": null
+        },
+        "election_turnout_reminder_access": {
+          "turnout": 0.5625,
+          "aware_mean": 0.764155806875,
+          "aware_count_ge_half": 14,
+          "shares": 10,
+          "moves": 68,
+          "votes": 9,
+          "first_goal_step": null
+        }
+      }
+    }
+  }
+}

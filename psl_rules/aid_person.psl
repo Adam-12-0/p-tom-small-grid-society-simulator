@@ -1,0 +1,19 @@
+# Illustrative soft rules; weights are not estimated from Afghan data.
+5: AwarePrev(P) -> Aware(P) ^2
+4: SharePrev(P) & Contact(P,Q) & Trust(Q,P) -> Aware(Q) ^2
+1: !Aware(P) ^2
+4: Aware(P) & Need(P) -> Intent(P) ^2
+2: Need(P) -> Intent(P) ^2
+3: !Safety(P) -> !Intent(P) ^2
+1: !Intent(P) ^2
+3: Aware(P) & Reach(P) -> ShareNow(P) ^2
+1: !ShareNow(P) ^2
+4: Intent(P) & Access(P) & !ServedPrev(P) -> Travel(P) ^2
+1: !Travel(P) ^2
+5: AtAid(P) & Need(P) & !ServedPrev(P) -> ReceiveNow(P) ^2
+1: !ReceiveNow(P) ^2
+# Hard PSL constraints.
+ServedPrev(P) -> !Travel(P) .
+ServedPrev(P) -> !ReceiveNow(P) .
+!AtAid(P) -> !ReceiveNow(P) .
+!Aware(P) -> !ShareNow(P) .

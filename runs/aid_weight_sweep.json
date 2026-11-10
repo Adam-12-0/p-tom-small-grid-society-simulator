@@ -1,0 +1,162 @@
+{
+  "note": "Illustrative sensitivity check, not fitted to observed behavior.",
+  "variants": {
+    "reference": {
+      "changed_weights": {},
+      "cases": {
+        "aid_baseline": {
+          "uptake": 0.375,
+          "awareness": 0.34325312051874995,
+          "shares": 3,
+          "moves": 47,
+          "receives": 6,
+          "first_goal_step": null
+        },
+        "aid_outreach": {
+          "uptake": 0.375,
+          "awareness": 0.728803779375,
+          "shares": 8,
+          "moves": 47,
+          "receives": 6,
+          "first_goal_step": null
+        },
+        "aid_access": {
+          "uptake": 0.5625,
+          "awareness": 0.3436371503750001,
+          "shares": 3,
+          "moves": 67,
+          "receives": 9,
+          "first_goal_step": 10
+        },
+        "aid_outreach_access": {
+          "uptake": 0.5625,
+          "awareness": 0.7288037443750001,
+          "shares": 8,
+          "moves": 67,
+          "receives": 9,
+          "first_goal_step": 10
+        }
+      }
+    },
+    "stronger_diffusion": {
+      "changed_weights": {
+        "SharePrev(P) & Contact(P,Q) & Trust(Q,P) -> Aware(Q)": 8,
+        "Aware(P) & Reach(P) -> ShareNow(P)": 6
+      },
+      "cases": {
+        "aid_baseline": {
+          "uptake": 0.375,
+          "awareness": 0.36535412653125,
+          "shares": 3,
+          "moves": 47,
+          "receives": 6,
+          "first_goal_step": null
+        },
+        "aid_outreach": {
+          "uptake": 0.375,
+          "awareness": 0.7664858899999999,
+          "shares": 10,
+          "moves": 47,
+          "receives": 6,
+          "first_goal_step": null
+        },
+        "aid_access": {
+          "uptake": 0.5625,
+          "awareness": 0.36551879225000006,
+          "shares": 3,
+          "moves": 67,
+          "receives": 9,
+          "first_goal_step": 10
+        },
+        "aid_outreach_access": {
+          "uptake": 0.5625,
+          "awareness": 0.7664860156250001,
+          "shares": 10,
+          "moves": 67,
+          "receives": 9,
+          "first_goal_step": 10
+        }
+      }
+    },
+    "stronger_action": {
+      "changed_weights": {
+        "Aware(P) & Need(P) -> Intent(P)": 6,
+        "Intent(P) & Access(P) & !ServedPrev(P) -> Travel(P)": 7,
+        "AtAid(P) & Need(P) & !ServedPrev(P) -> ReceiveNow(P)": 7
+      },
+      "cases": {
+        "aid_baseline": {
+          "uptake": 0.375,
+          "awareness": 0.3447724705,
+          "shares": 3,
+          "moves": 47,
+          "receives": 6,
+          "first_goal_step": null
+        },
+        "aid_outreach": {
+          "uptake": 0.375,
+          "awareness": 0.7288156231249999,
+          "shares": 8,
+          "moves": 47,
+          "receives": 6,
+          "first_goal_step": null
+        },
+        "aid_access": {
+          "uptake": 0.5625,
+          "awareness": 0.34503237484375004,
+          "shares": 3,
+          "moves": 67,
+          "receives": 9,
+          "first_goal_step": 10
+        },
+        "aid_outreach_access": {
+          "uptake": 0.5625,
+          "awareness": 0.7288186218750001,
+          "shares": 8,
+          "moves": 67,
+          "receives": 9,
+          "first_goal_step": 10
+        }
+      }
+    },
+    "weaker_safety_effect": {
+      "changed_weights": {
+        "!Safety(P) -> !Intent(P)": 1
+      },
+      "cases": {
+        "aid_baseline": {
+          "uptake": 0.375,
+          "awareness": 0.34331451345624997,
+          "shares": 3,
+          "moves": 47,
+          "receives": 6,
+          "first_goal_step": null
+        },
+        "aid_outreach": {
+          "uptake": 0.375,
+          "awareness": 0.7288037887499998,
+          "shares": 8,
+          "moves": 47,
+          "receives": 6,
+          "first_goal_step": null
+        },
+        "aid_access": {
+          "uptake": 0.5625,
+          "awareness": 0.34372010168749995,
+          "shares": 3,
+          "moves": 67,
+          "receives": 9,
+          "first_goal_step": 10
+        },
+        "aid_outreach_access": {
+          "uptake": 0.5625,
+          "awareness": 0.7288037975,
+          "shares": 8,
+          "moves": 67,
+          "receives": 9,
+          "first_goal_step": 10
+        }
+      }
+    }
+  }
+}

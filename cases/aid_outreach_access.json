@@ -1,0 +1,17 @@
+{
+  "extends": "aid_outreach.json",
+  "case": "aid_outreach_access",
+  "description": "Verified announcement plus access support at step 3",
+  "scheduled_access_support": [
+    {
+      "step": 3,
+      "people": [
+        "P04",
+        "P08",
+        "P12",
+        "P16"
+      ],
+      "access": 1.0
+    }
+  ]
+}

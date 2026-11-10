@@ -1,0 +1,4 @@
+# Service gap is a group-level summary, not a validated real-world measure.
+4: MeanNeed(N) & !CurrentUptake(N) -> ServiceGap(N) ^2
+2: MeanNeed(N) & !MeanAccess(N) -> ServiceGap(N) ^2
+1: !ServiceGap(N) ^2

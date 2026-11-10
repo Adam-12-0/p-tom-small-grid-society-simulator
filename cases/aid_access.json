@@ -1,0 +1,8 @@
+{
+  "extends": "aid_baseline.json",
+  "case": "aid_access",
+  "description": "Access support without an additional announcement at step 3",
+  "scheduled_access_support": [
+    {"step": 3, "people": ["P04", "P08", "P12", "P16"], "access": 1.0}
+  ]
+}

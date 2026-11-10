@@ -1,0 +1,4 @@
+# Group summaries are also inferred with PSL. CurrentTurnout is an observed fraction.
+4: MeanIntent(N) & MeanAccess(N) -> Ready(N) ^2
+2: CurrentTurnout(N) -> Ready(N) ^2
+1: !Ready(N) ^2

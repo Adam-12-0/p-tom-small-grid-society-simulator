@@ -1,0 +1,7349 @@
+{
+  "case_file": "/Users/ad906660/Library/CloudStorage/OneDrive-UniversityofCentralFlorida/Documents/ChatGPT/P-TOM/small-grid-society-simulator/cases/workshop.json",
+  "configuration": {
+    "case": "workshop",
+    "width": 5,
+    "height": 5,
+    "blocked": [],
+    "places": {
+      "counter": [
+        2,
+        0
+      ]
+    },
+    "tool_count": 1,
+    "people": [
+      {
+        "id": "S1",
+        "role": "storekeeper",
+        "position": [
+          2,
+          0
+        ],
+        "task": "manage_tools",
+        "status": "available"
+      },
+      {
+        "id": "W1",
+        "role": "worker",
+        "position": [
+          0,
+          4
+        ],
+        "workstation": [
+          0,
+          4
+        ],
+        "task": "complete_job",
+        "status": "moving",
+        "has_tool": false,
+        "work_left": 2,
+        "urgency": 0.8
+      },
+      {
+        "id": "W2",
+        "role": "worker",
+        "position": [
+          4,
+          4
+        ],
+        "workstation": [
+          4,
+          4
+        ],
+        "task": "complete_job",
+        "status": "moving",
+        "has_tool": false,
+        "work_left": 2,
+        "urgency": 0.5
+      }
+    ],
+    "rules": [
+      "WORK_MOVE",
+      "WORK_QUEUE",
+      "WORK_LOAN",
+      "WORK_RETURN",
+      "WORK_JOB"
+    ],
+    "policy": "psl",
+    "scheduled_changes": [],
+    "step_limit": 40,
+    "goal": {
+      "type": "jobs_completed",
+      "count": 2,
+      "all_tools_returned": true
+    },
+    "desk_open": true
+  },
+  "rules": {
+    "LIB_MOVE": "Reader moves one cell on a shortest path to the help desk.",
+    "LIB_QUEUE": "Arriving reader joins the service queue for the next step.",
+    "LIB_SERVE": "Open desk serves at most one previously queued reader.",
+    "LIB_READ": "Reader without a help request keeps reading.",
+    "WORK_MOVE": "Worker moves to counter or workstation along a shortest path.",
+    "WORK_QUEUE": "Arriving worker joins loan or return queue for the next step.",
+    "WORK_LOAN": "Storekeeper lends one available drill to a queued worker.",
+    "WORK_RETURN": "Storekeeper accepts one returned drill before any loan.",
+    "WORK_JOB": "Worker holding a drill completes one work unit at workstation."
+  },
+  "trace": [
+    {
+      "step": 0,
+      "before": {
+        "step": 0,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              4
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              4
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 0,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              4
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              4
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [],
+      "interactions": [],
+      "rule_ids": [],
+      "goal": false
+    },
+    {
+      "step": 1,
+      "before": {
+        "step": 0,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              4
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              4
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 1,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              3
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              3
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(0, 4) -> (0, 3)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(4, 4) -> (4, 3)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE",
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 2,
+      "before": {
+        "step": 1,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              3
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              3
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 2,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              2
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              2
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(0, 3) -> (0, 2)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(4, 3) -> (4, 2)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE",
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 3,
+      "before": {
+        "step": 2,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              2
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              2
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 3,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              1
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              1
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(0, 2) -> (0, 1)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(4, 2) -> (4, 1)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE",
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 4,
+      "before": {
+        "step": 3,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              1
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              1
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 4,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              0
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              0
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(0, 1) -> (0, 0)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(4, 1) -> (4, 0)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE",
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 5,
+      "before": {
+        "step": 4,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              0
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              0
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 5,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              1,
+              0
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              3,
+              0
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move right",
+          "rule": "WORK_MOVE",
+          "detail": "(0, 0) -> (1, 0)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move left",
+          "rule": "WORK_MOVE",
+          "detail": "(4, 0) -> (3, 0)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE",
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 6,
+      "before": {
+        "step": 5,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              1,
+              0
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              3,
+              0
+            ],
+            "task": "complete_job",
+            "status": "moving",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 6,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W1",
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move right",
+          "rule": "WORK_MOVE",
+          "detail": "(1, 0) -> (2, 0)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move left",
+          "rule": "WORK_MOVE",
+          "detail": "(3, 0) -> (2, 0)",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "join loan queue",
+          "rule": "WORK_QUEUE",
+          "detail": "",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "join loan queue",
+          "rule": "WORK_QUEUE",
+          "detail": "",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE",
+        "WORK_MOVE",
+        "WORK_QUEUE",
+        "WORK_QUEUE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 7,
+      "before": {
+        "step": 6,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W1",
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 7,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "priority scores",
+          "rule": null,
+          "detail": "{'W1': 0.59982634, 'W2': 0.3747334}",
+          "partner": null
+        },
+        {
+          "person": "S1",
+          "action": "loan drill",
+          "rule": "WORK_LOAN",
+          "detail": "W1",
+          "partner": "W1"
+        },
+        {
+          "person": "W1",
+          "action": "receive drill",
+          "rule": null,
+          "detail": "moves next step",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [
+        {
+          "from": "S1",
+          "to": "W1",
+          "action": "loan drill"
+        }
+      ],
+      "rule_ids": [
+        "WORK_LOAN"
+      ],
+      "goal": false
+    },
+    {
+      "step": 8,
+      "before": {
+        "step": 7,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 8,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              1,
+              0
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move left",
+          "rule": "WORK_MOVE",
+          "detail": "(2, 0) -> (1, 0)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 9,
+      "before": {
+        "step": 8,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              1,
+              0
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 9,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              0
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move left",
+          "rule": "WORK_MOVE",
+          "detail": "(1, 0) -> (0, 0)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 10,
+      "before": {
+        "step": 9,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              0
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 10,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              1
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move down",
+          "rule": "WORK_MOVE",
+          "detail": "(0, 0) -> (0, 1)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 11,
+      "before": {
+        "step": 10,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              1
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 11,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              2
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move down",
+          "rule": "WORK_MOVE",
+          "detail": "(0, 1) -> (0, 2)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 12,
+      "before": {
+        "step": 11,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              2
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 12,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              3
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move down",
+          "rule": "WORK_MOVE",
+          "detail": "(0, 2) -> (0, 3)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 13,
+      "before": {
+        "step": 12,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              3
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 13,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              4
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move down",
+          "rule": "WORK_MOVE",
+          "detail": "(0, 3) -> (0, 4)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 14,
+      "before": {
+        "step": 13,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              4
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 14,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              4
+            ],
+            "task": "complete_job",
+            "status": "working",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 1,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "work",
+          "rule": "WORK_JOB",
+          "detail": "work_left=1",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_JOB"
+      ],
+      "goal": false
+    },
+    {
+      "step": 15,
+      "before": {
+        "step": 14,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              4
+            ],
+            "task": "complete_job",
+            "status": "working",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 1,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 15,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              4
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "work",
+          "rule": "WORK_JOB",
+          "detail": "work_left=0",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_JOB"
+      ],
+      "goal": false
+    },
+    {
+      "step": 16,
+      "before": {
+        "step": 15,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              4
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 16,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              3
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(0, 4) -> (0, 3)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 17,
+      "before": {
+        "step": 16,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              3
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 17,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              2
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(0, 3) -> (0, 2)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 18,
+      "before": {
+        "step": 17,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              2
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 18,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              1
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(0, 2) -> (0, 1)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 19,
+      "before": {
+        "step": 18,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              1
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 19,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              0
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(0, 1) -> (0, 0)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 20,
+      "before": {
+        "step": 19,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              0,
+              0
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 20,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              1,
+              0
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move right",
+          "rule": "WORK_MOVE",
+          "detail": "(0, 0) -> (1, 0)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 21,
+      "before": {
+        "step": 20,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              1,
+              0
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 21,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "return_wait",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [
+          "W1"
+        ],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "move right",
+          "rule": "WORK_MOVE",
+          "detail": "(1, 0) -> (2, 0)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "join return queue",
+          "rule": "WORK_QUEUE",
+          "detail": "",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE",
+        "WORK_QUEUE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 22,
+      "before": {
+        "step": 21,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "return_wait",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 1
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [
+          "W1"
+        ],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 0
+      },
+      "after": {
+        "step": 22,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "accept return",
+          "rule": "WORK_RETURN",
+          "detail": "W1",
+          "partner": "W1"
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "wait",
+          "rule": null,
+          "detail": "queued",
+          "partner": null
+        }
+      ],
+      "interactions": [
+        {
+          "from": "S1",
+          "to": "W1",
+          "action": "accept return"
+        }
+      ],
+      "rule_ids": [
+        "WORK_RETURN"
+      ],
+      "goal": false
+    },
+    {
+      "step": 23,
+      "before": {
+        "step": 22,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "waiting",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          }
+        },
+        "queue": [
+          "W2"
+        ],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 23,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "priority scores",
+          "rule": null,
+          "detail": "{'W2': 0.3748306}",
+          "partner": null
+        },
+        {
+          "person": "S1",
+          "action": "loan drill",
+          "rule": "WORK_LOAN",
+          "detail": "W2",
+          "partner": "W2"
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "receive drill",
+          "rule": null,
+          "detail": "moves next step",
+          "partner": null
+        }
+      ],
+      "interactions": [
+        {
+          "from": "S1",
+          "to": "W2",
+          "action": "loan drill"
+        }
+      ],
+      "rule_ids": [
+        "WORK_LOAN"
+      ],
+      "goal": false
+    },
+    {
+      "step": 24,
+      "before": {
+        "step": 23,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 24,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              3,
+              0
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move right",
+          "rule": "WORK_MOVE",
+          "detail": "(2, 0) -> (3, 0)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 25,
+      "before": {
+        "step": 24,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              3,
+              0
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 25,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              0
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move right",
+          "rule": "WORK_MOVE",
+          "detail": "(3, 0) -> (4, 0)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 26,
+      "before": {
+        "step": 25,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              0
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 26,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              1
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move down",
+          "rule": "WORK_MOVE",
+          "detail": "(4, 0) -> (4, 1)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 27,
+      "before": {
+        "step": 26,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              1
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 27,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              2
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move down",
+          "rule": "WORK_MOVE",
+          "detail": "(4, 1) -> (4, 2)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 28,
+      "before": {
+        "step": 27,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              2
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 28,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              3
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move down",
+          "rule": "WORK_MOVE",
+          "detail": "(4, 2) -> (4, 3)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 29,
+      "before": {
+        "step": 28,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              3
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 29,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              4
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move down",
+          "rule": "WORK_MOVE",
+          "detail": "(4, 3) -> (4, 4)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 30,
+      "before": {
+        "step": 29,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              4
+            ],
+            "task": "complete_job",
+            "status": "carrying",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 2,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 30,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              4
+            ],
+            "task": "complete_job",
+            "status": "working",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 1,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "work",
+          "rule": "WORK_JOB",
+          "detail": "work_left=1",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_JOB"
+      ],
+      "goal": false
+    },
+    {
+      "step": 31,
+      "before": {
+        "step": 30,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              4
+            ],
+            "task": "complete_job",
+            "status": "working",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 1,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 31,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              4
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "work",
+          "rule": "WORK_JOB",
+          "detail": "work_left=0",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_JOB"
+      ],
+      "goal": false
+    },
+    {
+      "step": 32,
+      "before": {
+        "step": 31,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              4
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 32,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              3
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(4, 4) -> (4, 3)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 33,
+      "before": {
+        "step": 32,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              3
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 33,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              2
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(4, 3) -> (4, 2)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 34,
+      "before": {
+        "step": 33,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              2
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 34,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              1
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(4, 2) -> (4, 1)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 35,
+      "before": {
+        "step": 34,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              1
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 35,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              0
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move up",
+          "rule": "WORK_MOVE",
+          "detail": "(4, 1) -> (4, 0)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 36,
+      "before": {
+        "step": 35,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              4,
+              0
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 36,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              3,
+              0
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move left",
+          "rule": "WORK_MOVE",
+          "detail": "(4, 0) -> (3, 0)",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 37,
+      "before": {
+        "step": 36,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              3,
+              0
+            ],
+            "task": "complete_job",
+            "status": "returning",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 6,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 37,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "return_wait",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 37,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [
+          "W2"
+        ],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "wait",
+          "rule": null,
+          "detail": "no handover available",
+          "partner": null
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "move left",
+          "rule": "WORK_MOVE",
+          "detail": "(3, 0) -> (2, 0)",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "join return queue",
+          "rule": "WORK_QUEUE",
+          "detail": "",
+          "partner": null
+        }
+      ],
+      "interactions": [],
+      "rule_ids": [
+        "WORK_MOVE",
+        "WORK_QUEUE"
+      ],
+      "goal": false
+    },
+    {
+      "step": 38,
+      "before": {
+        "step": 37,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "return_wait",
+            "needs_help": false,
+            "has_tool": true,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 37,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 17
+          }
+        },
+        "queue": [],
+        "return_queue": [
+          "W2"
+        ],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 0,
+        "served": 0,
+        "completed": 1
+      },
+      "after": {
+        "step": 38,
+        "people": {
+          "S1": {
+            "id": "S1",
+            "role": "storekeeper",
+            "position": [
+              2,
+              0
+            ],
+            "task": "manage_tools",
+            "status": "available",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.0,
+            "workstation": null,
+            "arrival_step": null,
+            "served_step": null,
+            "completed_step": null,
+            "wait_steps": 0
+          },
+          "W1": {
+            "id": "W1",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.8,
+            "workstation": [
+              0,
+              4
+            ],
+            "arrival_step": 21,
+            "served_step": null,
+            "completed_step": 22,
+            "wait_steps": 2
+          },
+          "W2": {
+            "id": "W2",
+            "role": "worker",
+            "position": [
+              2,
+              0
+            ],
+            "task": "complete_job",
+            "status": "completed",
+            "needs_help": false,
+            "has_tool": false,
+            "work_left": 0,
+            "urgency": 0.5,
+            "workstation": [
+              4,
+              4
+            ],
+            "arrival_step": 37,
+            "served_step": null,
+            "completed_step": 38,
+            "wait_steps": 18
+          }
+        },
+        "queue": [],
+        "return_queue": [],
+        "desk_open": true,
+        "tool_count": 1,
+        "tools_at_counter": 1,
+        "served": 0,
+        "completed": 2
+      },
+      "actions": [
+        {
+          "person": "S1",
+          "action": "accept return",
+          "rule": "WORK_RETURN",
+          "detail": "W2",
+          "partner": "W2"
+        },
+        {
+          "person": "W1",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        },
+        {
+          "person": "W2",
+          "action": "stay",
+          "rule": null,
+          "detail": "job completed",
+          "partner": null
+        }
+      ],
+      "interactions": [
+        {
+          "from": "S1",
+          "to": "W2",
+          "action": "accept return"
+        }
+      ],
+      "rule_ids": [
+        "WORK_RETURN"
+      ],
+      "goal": true
+    }
+  ],
+  "result": {
+    "goal": true,
+    "steps": 38,
+    "people": {
+      "S1": {
+        "id": "S1",
+        "role": "storekeeper",
+        "position": [
+          2,
+          0
+        ],
+        "task": "manage_tools",
+        "status": "available",
+        "needs_help": false,
+        "has_tool": false,
+        "work_left": 0,
+        "urgency": 0.0,
+        "workstation": null,
+        "arrival_step": null,
+        "served_step": null,
+        "completed_step": null,
+        "wait_steps": 0
+      },
+      "W1": {
+        "id": "W1",
+        "role": "worker",
+        "position": [
+          2,
+          0
+        ],
+        "task": "complete_job",
+        "status": "completed",
+        "needs_help": false,
+        "has_tool": false,
+        "work_left": 0,
+        "urgency": 0.8,
+        "workstation": [
+          0,
+          4
+        ],
+        "arrival_step": 21,
+        "served_step": null,
+        "completed_step": 22,
+        "wait_steps": 2
+      },
+      "W2": {
+        "id": "W2",
+        "role": "worker",
+        "position": [
+          2,
+          0
+        ],
+        "task": "complete_job",
+        "status": "completed",
+        "needs_help": false,
+        "has_tool": false,
+        "work_left": 0,
+        "urgency": 0.5,
+        "workstation": [
+          4,
+          4
+        ],
+        "arrival_step": 37,
+        "served_step": null,
+        "completed_step": 38,
+        "wait_steps": 18
+      }
+    }
+  }
+}

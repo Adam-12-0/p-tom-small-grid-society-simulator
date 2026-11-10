@@ -1,0 +1,17 @@
+{
+  "extends": "election_turnout_reminder.json",
+  "case": "election_turnout_reminder_access",
+  "description": "Official notices plus transport access support at step 3",
+  "scheduled_access_support": [
+    {
+      "step": 3,
+      "people": [
+        "P04",
+        "P08",
+        "P12",
+        "P16"
+      ],
+      "access": 1.0
+    }
+  ]
+}

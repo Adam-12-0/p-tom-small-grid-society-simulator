@@ -1,0 +1,21 @@
+# Hand-authored exploratory PSL rules. Weights are not learned.
+5: AwarePrev(P) -> Aware(P) ^2
+4: SharePrev(P) & Contact(P,Q) & Trust(Q,P) -> Aware(Q) ^2
+1: !Aware(P) ^2
+4: Aware(P) & Interest(P) -> Intent(P) ^2
+2: PastVoter(P) -> Intent(P) ^2
+3: !Access(P) -> !Intent(P) ^2
+1: !Intent(P) ^2
+3: Aware(P) & Reach(P) -> ShareNow(P) ^2
+1: !ShareNow(P) ^2
+4: Intent(P) & Access(P) & Registered(P) & !VotedPrev(P) -> Travel(P) ^2
+1: !Travel(P) ^2
+5: AtPoll(P) & Intent(P) & Registered(P) & !VotedPrev(P) -> VoteNow(P) ^2
+1: !VoteNow(P) ^2
+# Hard constraints: these conditions cannot be traded against weighted rules.
+!Registered(P) -> !Travel(P) .
+VotedPrev(P) -> !Travel(P) .
+!Registered(P) -> !VoteNow(P) .
+VotedPrev(P) -> !VoteNow(P) .
+!AtPoll(P) -> !VoteNow(P) .
+!Aware(P) -> !ShareNow(P) .

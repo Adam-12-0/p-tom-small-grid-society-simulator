@@ -1,249 +1,149 @@
-# Small Grid Society Simulator
+# Civilian assistance grid world with PSL
 
-This is the first working version of the P-ToM grid society idea. It puts a few people in a small place, gives each person a task, and shows what happens one step at a time. The first two places are a library and a workshop. The rules are simple enough to inspect by hand. The goal is to see the world change, check that the rules work, and create a starting point for later P-ToM experiments.
+This is the current toy case for the P-ToM Grid World. It represents a **fictional district in Afghanistan** after an announcement about a civilian assistance point. The question is whether the announcement reaches households and whether people who need the service can get to the site. The people, network, inputs, weights, and outcomes are invented. The model does not predict the behavior of Afghan civilians or assess a real US Government operation.
 
-The main result so far is that both worlds run from start to finish with manual rules. A small probabilistic soft logic (PSL) policy also runs in the workshop. Azure GPT-6 Luna can choose actions for the people. It completed the library task in the saved run, but did not complete the workshop task within its 40-step limit. These are checks of this small simulator. They are not evidence that it predicts real human behavior.
+Sono's follow-up pointed us toward transparent agent-based models for this kind of question. We use PSL to make the behavior and contact rules inspectable. The grid then turns inferred action scores into a step-by-step trace. This is an internal mechanism test until suitable evidence and real outcome data are identified.
 
-## Start by watching a saved run
+## Why this is a toy model
 
-Open [World Progression.txt](<runs/World Progression.txt>). It shows every saved run from step 0 onward. Each step has a complete grid, the actions and events, the values that changed, and a short summary of everyone’s state. Model runs also show the model’s choices and any validation errors. The file has clear `RUN:` headings, so you can search for `RUN: library-manual` or `RUN: workshop-azure-full` to jump to a case.
+Here, "toy" means deliberately simplified. It is a small model in which we can inspect every input, rule, inferred value, and action. It is not a representative sample of Afghanistan. It does not estimate how a real population would respond to a US Government action. The point is to find out whether the proposed mechanism is coherent and which observations we would need for a later study.
 
-Open [World States.tsv](<runs/World States.tsv>) when you want a compact table. Each row is one person at one step. The columns include position, task, status, help or tool state, work remaining, queue, chosen action, and goal status. A TSV is a tab-separated text file. It opens in a spreadsheet, and it is also easy to read with a script.
+The intervention in this case is a hypothetical announcement of a civilian assistance point. We ask how the message spreads, who considers visiting, and who actually receives assistance. The simulator holds 16 people, one site, and a contact network fixed while changing the announcement and access conditions.
 
-The JSON files in `runs/` hold the complete records behind those two views. They include the starting configuration, rule descriptions, every before and after state, actions, model responses, and the final result. The text and TSV views were made from those saved records without calling Azure again.
+## Research question and testable hypotheses
 
-For example, the first library run begins with R1 at (0, 4), R2 at (4, 4), the librarian at the desk (2, 0), and R3 reading at (3, 3). At step 1, R1 and R2 each move up one cell. At step 6, both reach the desk and join the queue. R1 is served at step 7 and R2 at step 8. You can follow each of those changes in the text file or find the corresponding rows in the TSV.
+**Question:** How do information sharing and physical access affect awareness and service uptake in this explicitly defined community?
 
-## The two worlds
+These are candidate hypotheses about a mechanism. The current runs test whether the *model* behaves as expected. Testing claims about people would require suitable observed data.
 
-A cell is an (x, y) position. x increases to the right and y increases downward. The top left cell is (0, 0). Both worlds use a 5 by 5 grid. A person can move one cell per step, up, left, right, or down. The program prevents moves outside the grid or into a blocked cell. People may share a walkable cell.
-
-### Library
-
-Suppose a librarian is working at a help desk while two readers need assistance. A third reader is already reading. The case file supplies their starting values. The simulator then records how those values change at each step.
-
-This is the library at **step 0**, before anyone acts. Coordinates use `(x, y)`, with `x` increasing to the right and `y` increasing downward.
-
-```text
-        x0     x1     x2     x3     x4
-y0       .      .    L1/D      .      .
-y1       .      .      .       .      .
-y2       .      .      #       .      .
-y3       .      .      .     R3/R     .
-y4      R1      .      .       .     R2
-```
-
-`D` is the help desk at `(2, 0)`, `R` is the reading place at `(3, 3)`, and `#` is a blocked shelf at `(2, 2)`. A label such as `L1/D` means that L1 occupies the desk cell. People may share a walkable cell, so the queue records service order rather than separate waiting positions.
-
-#### Individual state
-
-Each person has the fields below. The table shows the value type and what it means in this library. Coordinates are pairs of integers. In JSON they are written as two-element arrays.
-
-| Field | Type | Meaning and initial example |
-| --- | --- | --- |
-| `id` | string | Stable person ID, such as `R1`. |
-| `role` | string | `librarian` or `reader`. |
-| `position` | pair of integers | Current `[x, y]` cell, such as `[0, 4]`. |
-| `task` | string | `serve_readers`, `get_help`, or `read`. |
-| `status` | string | Starts as `available`, `moving`, or `reading`; a reader can later be `waiting` or `served`. |
-| `needs_help` | Boolean | `true` for R1 and R2; `false` for R3. It becomes `false` when a reader is served. |
-| `arrival_step` | integer or `null` | Starts as `null`; set to the step when the reader joins the queue. |
-| `served_step` | integer or `null` | Starts as `null`; set to the step when service occurs. |
-| `wait_steps` | integer | Starts at `0`; after service, `served_step - arrival_step`. |
-
-The starting values for the four people are:
-
-| Person | Role | Position | Task | Status | `needs_help` |
-| --- | --- | --- | --- | --- | --- |
-| L1 | librarian | `[2, 0]` | `serve_readers` | `available` | `false` |
-| R1 | reader | `[0, 4]` | `get_help` | `moving` | `true` |
-| R2 | reader | `[4, 4]` | `get_help` | `moving` | `true` |
-| R3 | reader | `[3, 3]` | `read` | `reading` | `false` |
-
-`arrival_step` and `served_step` are `null` for everyone at step 0, and `wait_steps` is `0`. The saved state also includes shared person fields used by the workshop, such as `has_tool` and `work_left`. They stay at their defaults in the library.
-
-#### Society and goal state
-
-The case configuration describes the grid and fixed settings. The run state holds values that change as the simulation advances.
-
-| Key | Type | Library value at step 0 | Role |
+| Hypothesis | Controlled comparison | Measure | What would count as support in this model? |
 | --- | --- | --- | --- |
-| `case` | string | `library` | Selects the library behavior. |
-| `people` | list of person objects in the case; ID-keyed map in a saved state | L1, R1, R2, R3 | The individuals described above. |
-| `policy` | string | `manual` | Selects manual or Azure choices for this case. |
-| `rules` | list of rule ID strings | `LIB_MOVE`, `LIB_QUEUE`, `LIB_SERVE`, `LIB_READ` | Descriptive names; this list does not currently control execution. |
-| `width`, `height` | integers | `5`, `5` | Grid size from the case file. |
-| `blocked` | list of coordinate pairs | `[[2, 2]]` | Cells no one can enter. |
-| `places` | map from names to coordinate pairs | `desk: [2, 0]`, `reading: [3, 3]` | Named locations. |
-| `desk_open` | Boolean | `true` | Whether the librarian can serve someone this step. |
-| `queue` | list of person IDs | `[]` | Readers waiting for service, in order. |
-| `step` | integer | `0` | Current committed step. |
-| `served` | integer | `0` | Derived count of people with a non-`null` `served_step`. |
-| `scheduled_changes` | list of event objects | `[]` | Changes applied at specified steps; used for the desk closure. |
+| H1. Additional direct announcements increase awareness. | Outreach versus baseline | Mean inferred awareness at step 20 | Awareness is higher with outreach. |
+| H2. Improving access increases service uptake. | Access support versus baseline | Share served by step 20 | More people reach the site and receive assistance. |
+| H3. Announcements and access may interact. | All four conditions below | Difference in uptake for combined versus single changes | The combined effect exceeds what the single changes explain. A zero interaction is also informative. |
+| H4. Lower perceived safety reduces intent when other inputs are held fixed. | Change only Safety for the same person and step | Inferred Intent | Intent falls when Safety falls. |
 
-The library goal is `{"type": "readers_served", "count": 2}`, with `step_limit: 12`. The goal check is true when at least two people have a non-`null` `served_step`. In this case those people are R1 and R2, the two readers who start needing help. Each trace record saves this result as a Boolean `goal` value. The run stops when the goal is reached or after step 12.
+H1, H2, and H3 use a two-by-two design: baseline, outreach only, access only, and both. H4 is a controlled inference check. Trust in a contact is another testable mechanism. We test it by removing one contact link and checking whether the receiver's inferred awareness falls. None of these tests establish an empirical effect.
 
-#### Manual library rules
+## Starting grid
 
-These are the rules used by the built-in manual policy. Each rule has a condition and an effect, so it can be checked against the trace.
-
-1. **`LIB_MOVE`:** If a reader still needs help, is not queued, and has not reached the desk, move one cell along a shortest walkable path to `(2, 0)`. For equally short paths, try up, left, right, then down. A move cannot leave the grid or enter the blocked shelf.
-2. **`LIB_QUEUE`:** If a reader who needs help reaches the desk, append their ID to `queue`, set `status="waiting"`, and set `arrival_step` to the current step. The new arrival is eligible for service from the next step onward. Readers arriving together are ordered by ID.
-3. **`LIB_SERVE`:** If `desk_open=true` and the queue was nonempty at the start of the step, serve its first reader. Remove that ID from `queue`, set `needs_help=false` and `status="served"`, and record `served_step` and `wait_steps`. At most one reader is served per step.
-4. **`LIB_READ`:** If a reader does not need help and is already reading, keep reading. R3 stays at the reading place in these runs.
-
-The available choices and automatic effects are different things:
-
-| Item | Who or what uses it | Effect |
-| --- | --- | --- |
-| `move(direction)` | Reader | Moves one legal cell. The manual policy picks a shortest-path move; the Azure policy may choose any legal neighboring cell. |
-| `wait` | Reader or librarian | Uses the step without moving or serving. |
-| `read` | Reading reader | Continues reading, with no state change. |
-| `serve(person)` | Librarian | Serves the first previously queued reader when the desk is open. |
-| `join queue` | Automatic arrival effect | Adds a reader to the queue after reaching the desk; it is not a separate model choice. |
-| `desk_open` change | Scheduled world event | Changes the desk state before actions for that step. |
-
-The baseline leaves the desk open. R1 and R2 reach it at step 6, R1 is served at step 7, and R2 at step 8. Their waits are one and two steps. The paired run changes only the desk schedule: `desk_open=false` at step 6 and `desk_open=true` at step 9. The desk is therefore closed during steps 6, 7, and 8. The readers still arrive and queue at step 6. They are served at steps 9 and 10, with waits of three and four steps. The goal is met in both runs, but two steps later with the closure. These are results of the encoded rules, not claims about real library visitors.
-
-### Workshop
-
-The workshop has a tool counter at (2, 0), one storekeeper, and two workers. Each worker starts at a different workstation. Both need a drill for two work steps. They first travel to the counter and join the loan queue. Once a worker gets a drill, they carry it back to their workstation, work for two steps, then return it. The storekeeper handles at most one loan or return in a step. Returns take priority over loans, and a returned drill can be loaned again on the next step.
-
-The workshop goal is to finish both jobs and return every drill within 40 steps. One saved version starts with one drill. Another starts with two. At every committed step, the program checks that the number of drills at the counter plus the number held by workers equals the configured total. No worker can hold a drill that does not exist.
-
-The workshop uses the same `id`, `role`, `position`, `task`, `status`, and step fields. Its additional state is:
-
-| Field | Type | Starting value or meaning |
-| --- | --- | --- |
-| `has_tool` | Boolean per person | `false` for W1 and W2; becomes `true` when a drill is loaned. |
-| `work_left` | integer per worker | `2` for each worker; decreases by one for each work step. |
-| `urgency` | number from 0 to 1 per worker | `0.8` for W1, `0.5` for W2; used by the PSL priority policy. |
-| `workstation` | coordinate pair per worker | `[0, 4]` for W1, `[4, 4]` for W2. |
-| `completed_step` | integer or `null` per person | Starts `null`; set when a worker returns the drill after finishing. |
-| `tool_count`, `tools_at_counter` | integers for the world | Both start at `1` in the one-drill case. |
-| `queue`, `return_queue` | lists of person IDs | Both start empty; they hold workers waiting to borrow or return a drill. |
-| `completed` | integer for the world | Derived count of people with a non-`null` `completed_step`. |
-
-The goal is `{"type": "jobs_completed", "count": 2, "all_tools_returned": true}`, with `step_limit: 40`. It requires two completed jobs and all configured drills back at the counter. In the two-drill case, `tool_count` and `tools_at_counter` both start at `2`.
-
-## What one step means
-
-The program prints and saves the starting world as step 0. It checks whether the goal is already reached. For each later step, it follows this order:
-
-1. Apply any scheduled change, such as closing the desk or adding a drill.
-2. Find the actions that are allowed from the current world.
-3. Choose one action per person. The manual policy uses behavior implemented in code. The Azure policy asks the model to choose from a list of legal actions.
-4. Apply actions and their effects. Service and handover decisions use the queue as it stood at the start of the step. New arrivals enter for the next step.
-5. Check the grid and drill rules, update the goal, print the new world, and save the full state.
-
-The `Actions and events` section in the text trace includes voluntary actions and automatic effects. For example, `move up` is a reader’s action, while `join queue` is the effect of arriving at the desk. The saved JSON marks those separately. `State changes` lists the values that actually changed between the before and after states.
-
-## Where PSL fits
-
-Probabilistic soft logic (PSL) combines weighted rules to infer a score when evidence can pull a decision in different directions. A rule weight expresses influence on that score. It is not the probability that a person will act.
-
-The workshop’s PSL policy uses two weighted rules. Higher urgency pushes a waiting worker’s priority up with weight 3. A second rule pushes priority down with weight 1. The official PSL inference engine balances them. With the assigned urgencies, W1 receives a score near 0.600 and W2 near 0.375. These numbers are queue decision scores, not probabilities of being served. Both workers reach the counter together in this case, so W1 is first under either queue policy.
-
-The two rules passed to PSL are:
+`P01` to `P16` are people, `AID` is the civilian assistance point, `#` is a blocked cell, and `·` is an open cell. Four neighborhoods occupy the corners of this 10 by 10 grid. Contact links are defined separately from physical distance.
 
 ```text
-3: Waiting(W) & Urgency(W) -> Priority(W) ^2
-1: !Priority(W) ^2
+P01  ·    P02  ·    ·    ·    ·    P05  ·    P06
+·    ·    ·    ·    ·    ·    ·    ·    ·    ·
+P03  ·    P04  ·    ·    ·    ·    P07  ·    P08
+·    ·    ·    ·    ·    ·    ·    ·    ·    ·
+·    ·    ·    ·    #    ·    #    ·    ·    ·
+·    ·    ·    ·    ·    AID  ·    ·    ·    ·
+·    ·    ·    ·    #    ·    #    ·    ·    ·
+P09  ·    P10  ·    ·    ·    ·    P13  ·    P14
+·    ·    ·    ·    ·    ·    ·    ·    ·    ·
+P11  ·    P12  ·    ·    ·    ·    P15  ·    P16
 ```
 
-`Waiting` is observed as `1.0` for each queued worker. `Urgency` comes from each worker’s state (`0.8` for W1 and `0.5` for W2). PSL infers `Priority`, and the worker with the higher score goes first.
+The full synthetic starting values and contact network are in [`cases/aid_baseline.json`](cases/aid_baseline.json). Three people start aware of the announcement. Other people may learn about it from trusted contacts. No party, ethnic, religious, or other population label is used to set behavior.
 
-PSL is used only for workshop queue priority in this version. The library follows the manual movement, queue, and service rules described above. If we later use PSL there, we need to specify what it infers and make its result affect an actual action. The rule names in the case file do not yet control the simulation, so an LLM-drafted rule would need to be inspected, accepted, and made executable before we could test its effect.
+## State
 
-## Results from the saved runs
-
-| Run | Goal result | What happened |
+| Level | Fixed input or stored state | Value inferred by PSL |
 | --- | --- | --- |
-| Library, manual, desk open | Reached at step 8 | R1 was served at 7, R2 at 8. They waited 1 and 2 steps. |
-| Library, manual, desk closed at 6 to 8 | Reached at step 10 | R1 was served at 9, R2 at 10. They waited 3 and 4 steps. |
-| Workshop, manual, one drill | Reached at step 38 | W1 finished and returned the drill at 22. W2 finished at 38. |
-| Workshop, manual, two drills | Reached at step 23 | W1 finished at 22 and W2 at 23. Both drills were returned. |
-| Workshop, PSL queue policy, one drill | Reached at step 38 | The priority choice agreed with the manual queue order in this case. |
-| Library, Azure agent policy | Reached at step 8 | The model made 22 choices. All were valid. Both readers were served on the same steps as in the manual run. |
-| Workshop, Azure agent policy | Not reached by step 40 | The model made 80 choices. Four were invalid and became waits. W1 finished its work but had not returned the drill. W2 had not received a drill. |
+| Person | Position, neighborhood, need for assistance, access, perceived safety, trust in peer information | `Aware`, `Intent`, `ShareNow`, `Travel`, `ReceiveNow` |
+| Contact | Pair of people and the receiver's trust in a peer message | Contact sharing can support another person's awareness |
+| Neighborhood | Mean need, mean access, mean intent, observed service uptake | `ServiceGap`, a descriptive unmet-service score |
+| Grid | Open and blocked cells, assistance point, step number, interventions | No grid target in this version |
 
-The two manual library runs show the effect of the desk closure in this encoded world. The two manual workshop runs show the effect of starting with one more drill. The Azure workshop result shows a limitation of that single model run: its action choices did not finish the task in time. It does not tell us how often the model would succeed across repeated runs. Both Azure runs were replayed from their saved responses. Each replay produced the same actions and final state without another API call.
+The values in `[0,1]` are illustrative soft truth values, not calibrated chances of a real action. `AwarePrev`, `SharePrev`, `ServedPrev`, and `AtAid` are observed at each step from the stored state. `Reach` is calculated from the contact network. `Safety` is the person's supplied perception of whether visiting the site is safe, not an assessed real-world security condition.
 
-A high-reasoning Azure call also proposed one replacement movement rule for the workshop. The program checked its field names and action, then compared it with the manual run. It matched 12 worker movement decisions in that one reference case. The proposal is saved in `runs/workshop-rule-proposal-validated.json`. It is not installed as a live rule, and this check does not show that it works in new worlds.
+## PSL rules
 
-## Run it yourself
+The following are the exact executable rules in [the person model](psl_rules/aid_person.psl) and [the neighborhood model](psl_rules/aid_group.psl). P and Q are people. N is a neighborhood. A numbered rule is soft, its number is a hand-set weight, and ^2 means a squared violation. A rule ending with a period is hard. The compiled PSL lesson for grounding, violations, inference, and probability is in the adjacent local documents-and-slides folder.
 
-Run these commands from this folder. First, make a Python 3.11 environment and install the packages. The PSL policy also needs Java installed.
+Each row gives the formal rule and its plain-English meaning. The English is a proposed mechanism, not a claim about Afghan behavior.
+
+### Information and contact
+
+| PSL rule | Meaning |
+| --- | --- |
+| <code>5: AwarePrev(P) -> Aware(P) ^2</code> | Awareness carried from the previous step supports awareness now. |
+| <code>4: SharePrev(P) &amp; Contact(P,Q) &amp; Trust(Q,P) -> Aware(Q) ^2</code> | A prior share from P can inform Q when they are linked and Q trusts P. |
+| <code>1: !Aware(P) ^2</code> | A weak prior resists unsupported awareness. |
+| <code>3: Aware(P) &amp; Reach(P) -> ShareNow(P) ^2</code> | An aware person with reachable contacts has support for sharing. |
+| <code>1: !ShareNow(P) ^2</code> | A weak prior resists sharing when the positive rule gives little support. |
+| <code>!Aware(P) -> !ShareNow(P) .</code> | A person cannot have a sharing score above their awareness score. |
+
+### Intent and movement
+
+| PSL rule | Meaning |
+| --- | --- |
+| <code>4: Aware(P) &amp; Need(P) -> Intent(P) ^2</code> | Awareness combined with need supports intent to visit. |
+| <code>2: Need(P) -> Intent(P) ^2</code> | Need can also support seeking help through background knowledge, even without this announcement. This assumption is why outreach need not change uptake. |
+| <code>3: !Safety(P) -> !Intent(P) ^2</code> | Low perceived safety pushes intent downward. |
+| <code>1: !Intent(P) ^2</code> | A weak prior resists unsupported intent. |
+| <code>4: Intent(P) &amp; Access(P) &amp; !ServedPrev(P) -> Travel(P) ^2</code> | Intent and access support travel for a person who has not been served. |
+| <code>1: !Travel(P) ^2</code> | A weak prior resists travel without support. |
+| <code>ServedPrev(P) -> !Travel(P) .</code> | A person already served cannot travel for service again. |
+
+### Receiving assistance
+
+| PSL rule | Meaning |
+| --- | --- |
+| <code>5: AtAid(P) &amp; Need(P) &amp; !ServedPrev(P) -> ReceiveNow(P) ^2</code> | Need supports receipt when a person is at the site and has not received help. |
+| <code>1: !ReceiveNow(P) ^2</code> | A weak prior resists receipt without support. |
+| <code>ServedPrev(P) -> !ReceiveNow(P) .</code> | Receipt cannot occur twice. |
+| <code>!AtAid(P) -> !ReceiveNow(P) .</code> | Receipt cannot occur away from the site. |
+
+### Neighborhood summary
+
+| PSL rule | Meaning |
+| --- | --- |
+| <code>4: MeanNeed(N) &amp; !CurrentUptake(N) -> ServiceGap(N) ^2</code> | High need together with low observed uptake supports a larger service gap. |
+| <code>2: MeanNeed(N) &amp; !MeanAccess(N) -> ServiceGap(N) ^2</code> | High need together with low access gives another reason for a service gap. |
+| <code>1: !ServiceGap(N) ^2</code> | A weak prior resists an unsupported gap. |
+
+The person-level targets Aware, Intent, ShareNow, Travel, and ReceiveNow are inferred jointly each step. ServiceGap is inferred afterward from neighborhood summaries. It is descriptive and does not feed back into decisions yet. The model assumes unlimited service capacity. That assumption would need to change before studying queues or scarce supplies.
+
+## One simulation step
+
+1. Apply any scheduled announcement or access support. Record the changed input.
+2. Infer the five person-level PSL targets jointly from fixed observations and weighted rules.
+3. Use the declared thresholds to let someone share once, move one legal cell, or receive assistance at the site. Awareness persists after a person learns the announcement.
+4. Calculate neighborhood inputs and infer `ServiceGap` with the group rules.
+5. Save the observations, inferred values, actions, and state after the step.
+
+The thresholds are `share = 0.25`, `travel = 0.20`, and `receive = 0.33`. A threshold changes a soft score into a discrete action. It is a simulator choice, not a PSL probability. Grid movement, persistent awareness, one-time sharing, and one-time receipt are world mechanics. The hard PSL rules also restrict action scores inside inference.
+
+## Completed synthetic runs
+
+All four cases have the same 16 people, network, rules, and 20-step limit. The only differences are the events at step 3. The illustrative goal is at least 50% service uptake.
+
+| Case | Step 3 change | Mean awareness | People served | Reached goal? |
+| --- | --- | ---: | ---: | --- |
+| [`aid_baseline`](cases/aid_baseline.json) | None | 0.343 | 6/16 (37.5%) | No |
+| [`aid_outreach`](cases/aid_outreach.json) | Four more people hear the announcement | 0.729 | 6/16 (37.5%) | No |
+| [`aid_access`](cases/aid_access.json) | Access support for the same four people | 0.344 | 9/16 (56.3%) | Yes, at step 10 |
+| [`aid_outreach_access`](cases/aid_outreach_access.json) | Same announcement plus access support | 0.729 | 9/16 (56.3%) | Yes, at step 10 |
+
+In these runs, outreach spreads awareness but does not increase receipt. Access support increases receipt with or without outreach. The combined case adds no further uptake beyond access alone. One reason is the explicit Need-to-Intent rule: a person can seek help without hearing this announcement. P04, P08, and P12 receive assistance in both access cases. These are results of hypothetical rules and inputs, not evidence of a real intervention effect. The uptake interaction is 0.5625 - 0.375 - 0.5625 + 0.375 = 0. That does not support H3 in this setup. Full traces are in [`runs/aid_baseline-psl.json`](runs/aid_baseline-psl.json), [`runs/aid_outreach-psl.json`](runs/aid_outreach-psl.json), [`runs/aid_access-psl.json`](runs/aid_access-psl.json), and [`runs/aid_outreach_access-psl.json`](runs/aid_outreach_access-psl.json).
+
+A [four-setting weight sweep](runs/aid_weight_sweep.json) compares the reference rules with stronger diffusion, stronger action, and a weaker safety effect across all four cases. In this small range, the final service counts did not change. Stronger diffusion did raise awareness. That means the current action thresholds and starting conditions matter at least as much as these weight changes for the measured outcome. We should not treat the present weights as fitted or stable. The next sensitivity check should vary thresholds, network links, and initial values as well.
+
+## Run it
+
+The project uses Python 3, `pslpython`, and Java. With the project environment:
 
 ```bash
-python3.11 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -W ignore::FutureWarning aid_psl.py aid_baseline --show-grid
+.venv/bin/python -W ignore::FutureWarning aid_psl.py aid_baseline
+.venv/bin/python -W ignore::FutureWarning aid_psl.py aid_outreach
+.venv/bin/python -W ignore::FutureWarning aid_psl.py aid_access
+.venv/bin/python -W ignore::FutureWarning aid_psl.py aid_outreach_access
+.venv/bin/python -W ignore::FutureWarning aid_weight_sweep.py
+.venv/bin/python -W ignore::FutureWarning -m unittest discover -s tests -v
 ```
 
-Then run a case:
+The earlier election example and its traces are retained as a previous prototype. It is no longer the case described by this README.
 
-```bash
-.venv/bin/python run.py library
-.venv/bin/python run.py library_closed --display quiet
-.venv/bin/python run.py workshop
-.venv/bin/python run.py workshop_two_drills --display delay --delay 0.5
-.venv/bin/python run.py workshop --policy psl
-```
+## What would make this a research result?
 
-The default display prints every step and leaves the history in the terminal. `--display interactive` waits for Enter after each step. `--display delay` pauses for the number of seconds given by `--delay`. `--display quiet` saves the JSON result without printing grids. Each command saves a new JSON file in `runs/`. Use `--output` if you want a particular filename.
-
-To rebuild the readable observation files from saved results, run:
-
-```bash
-.venv/bin/python display.py runs/library-manual.json runs/library-closed-manual.json runs/workshop-manual.json runs/workshop-two-drills-manual.json runs/workshop-psl.json runs/library-azure-full.json runs/workshop-azure-full.json --text 'runs/World Progression.txt' --tsv 'runs/World States.tsv'
-```
-
-This command only reads saved JSON. It does not rerun the worlds or call Azure. You can also pass one JSON file to make a separate text transcript and TSV for just that run.
-
-## Azure settings and model runs
-
-The saved model runs used the existing Azure GPT-6 Luna deployment. Action choices request low reasoning. Rule proposals request high reasoning. A live check confirmed that both settings work. The deployment rejects `temperature=0`, so the client leaves temperature out of every request by default. The response record still notes `temperature: null` to make that omission clear. It never silently retries with different settings.
-
-Azure credentials stay outside this folder. The client reads `AZURE_OPENAI_BASE_URL` and `AZURE_OPENAI_API_KEY` (or `AZURE_AI_FOUNDRY_API_KEY`) from the environment. You can point it to an existing environment file with `--env-file`. The deployment name defaults to `gpt-6-luna`; `PTOM_AZURE_DEPLOYMENT` can override it. No API key or endpoint is saved in a case or run trace.
-
-```bash
-.venv/bin/python run.py library --policy azure --env-file /path/to/existing/.env
-.venv/bin/python run.py workshop --policy azure --env-file /path/to/existing/.env
-.venv/bin/python run.py workshop --propose-rules --env-file /path/to/existing/.env
-```
-
-The model receives one person’s task and visible surroundings, plus its allowed actions. It cannot directly edit positions, queues, or inventory. Python checks the chosen action before changing the world. A malformed or illegal answer becomes a wait, and the validation error appears in the JSON and readable trace. An API failure stops the run. The runner saves each committed step, so you can continue from the last saved state:
-
-```bash
-.venv/bin/python run.py --resume runs/your-run.json --env-file /path/to/existing/.env
-```
-
-To repeat a saved model run without new API calls, use `--replay`:
-
-```bash
-.venv/bin/python run.py library --policy azure --replay runs/library-azure-full.json
-```
-
-The two commands above serve different purposes. Resume continues an unfinished run from its last committed step. Replay starts again and reuses the model responses already in a saved run.
-
-## Change a case
-
-The `cases/` folder contains small JSON files. `library.json` and `workshop.json` give the full starting states. `library_closed.json` and `workshop_two_drills.json` inherit those states and change only the comparison input. You can copy a case file and change positions, the number of tools, the step limit, or the goal count. The program checks required fields and rejects invalid positions.
-
-A scheduled change has a step, a field, and a value. The library closure file provides an example. The workshop can add a drill during a run with an event like `{"step": 10, "field": "add_tools", "value": 1}`. Scheduled changes alter the world state. They do not rewrite the behavior rules.
-
-## Code and checks
-
-The code is kept in six main Python files. `world.py` loads and checks cases. `rules.py` holds rule descriptions, movement, invariants, and the two small rule checks. `simulation.py` advances the world. `display.py` prints and exports observations. `azure_client.py` handles model calls and replay choices. `run.py` is the command-line entry point. The three test files check timing, queues, inventory, PSL scores, invalid model actions, and checkpoint resume.
-
-```bash
-.venv/bin/python -m unittest discover -s tests -v
-```
-
-Eleven tests passed on this setup. The final saved traces were also checked for continuous step numbers, at most one chosen action per person per step, drill conservation at every workshop step, and exact replay of both Azure runs. These checks confirm that the implementation follows its own rules. They do not measure whether the rules match real social behavior.
-
-## Documents and next steps
-
-The copied [Small Grid Society Simulator Plan](<P-ToM Small Grid Society Simulator Plan.docx>) is the implementation plan for this folder. The copied [Broader Modeling Framework](<P-ToM Broader Modeling Framework.docx>) explains the larger P-ToM goal, including beliefs, communication, and theory of mind. The advisor meeting transcript and whiteboard remain at their original OneDrive locations and were not copied here.
-
-The [Research Notes and Library Example](<P-ToM Research Notes and Library Example.docx>) give more context and walk through the library society, its starting values, rules, baseline, and desk closure. The immediate next step is to make accepted rules executable as simulation inputs and test them in this focused case. Information sharing, beliefs about other people, and real-world validation belong to later versions.
+A transparent toy model is a starting point. We still need to identify observations for message exposure, contact, trust, perceived safety, physical access, and service uptake in a specific civilian setting. Two possible sources to screen are [UNHCR’s Afghanistan Rapid Household Assessments 2024](https://microdata.worldbank.org/catalog/6537/data-dictionary/hh_data), which include questions about humanitarian-assistance information and access, and [the Asia Foundation’s 2019 Survey of the Afghan People](https://asiafoundation.org/insight/afghanistan-in-2019-a-survey-of-the-afghan-people/), which covers security, institutions, media, and services. We have not shown that either source measures the message spread or intervention outcome in this toy case. We also need a way to test whether our rules generalize beyond one hand-set grid. Sono recommended [Epstein's agent-based model](https://doi.org/10.1073/pnas.092080199) as an example of transparent individual rules and pointed us to [Chuang et al.](https://aclanthology.org/2024.findings-naacl.211/) for LLM opinion dynamics. Both are useful for designing comparisons, but neither validates the rules here. LLM-generated rules should be treated as proposals that need syntax checks, grounding checks, and comparison with observed behavior. Theory of mind can be added after the basic contact and action mechanisms have an empirical target.
