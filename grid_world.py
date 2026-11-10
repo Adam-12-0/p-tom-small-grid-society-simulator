@@ -101,7 +101,7 @@ def run(config: Config, engine: str = "direct") -> list[Frame]:
         receivers = contact_events(positions, informed, config, rng)
         if engine == "psl":
             from psl_model import infer_known
-            updated = infer_known(config.people, informed, receivers)
+            updated = infer_known(config.people, informed, receivers, positions, config.size)
         else:
             updated = informed | {target for _, target in receivers}
         informed = frozenset(updated)

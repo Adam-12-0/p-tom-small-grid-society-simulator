@@ -28,11 +28,11 @@ python3 -m venv .venv
 
 ## What PSL does here
 
-The direct model computes the exact Boolean update. The PSL model observes `KnownPrev(P)` and the sharing events created after movement. It then infers `Known(P)` from two hard rules:
+The direct model computes the exact Boolean update. The PSL model observes `KnownPrev(P)` and the sharing events created after movement. It then infers `Known(P)` from two hard rules. `Adjacent(P,Q)` is observed from the current grid:
 
 ```text
 KnownPrev(P) -> Known(P) .
-KnownPrev(P) & ShareEvent(P,Q) -> Known(Q) .
+KnownPrev(P) & Adjacent(P,Q) & ShareEvent(P,Q) -> Known(Q) .
 ```
 
 A weak negative prior keeps unsupported `Known` atoms at zero. The model uses genuine PSL inference, but the hard rules make its result match the direct baseline. PSL does not choose movements or sample sharing events here. A PSL truth value or rule weight should not be called a calibrated chance of sharing. To represent a literal 50% sharing likelihood, the simulator samples a Bernoulli event before PSL inference. We can later test soft PSL rules as graded support, but they would need an explicit interpretation and validation before comparing them with behavioral probabilities.
