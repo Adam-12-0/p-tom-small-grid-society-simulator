@@ -1,4 +1,3 @@
 pslpython==2.4.1
-pyqtgraph>=0.13,<0.15
+pyqtgraph==0.13.7
 PyQt6>=6.5
-jupyter>=1.0

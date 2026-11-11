@@ -1,42 +1,31 @@
-# Grid society information flow
+# Grid information flow
 
-A minimal model of how one piece of information spreads through a moving population. There is no LLM, aid scenario, or person-specific behavior. All people follow the same rules.
-
-## Rules
-
-- The world is a square grid. Each cell holds at most one person.
-- One person near the center starts informed. You can instead choose an edge source.
-- At each discrete time step, every person selects one cardinal neighbor. They move there if it is empty and swap places if it is occupied. This permits motion even at full density.
-- After moving, each informed person may tell each adjacent uninformed person. For the first experiment, `share_probability=1`, so every such contact succeeds. New recipients begin sharing at the next time step.
-- Informed people never forget the information. The goal is reached when all people know it. A run that reaches `max_steps` first is censored, not counted as completed.
-
-The society parameter is population density, `people / size²`. Grid size is 20 by 20 by default. The share likelihood is present in the code for later experiments but is fixed at 1 for the baseline. Movement is fixed across all people and runs. A random seed makes each run reproducible.
-
-## Run
+Run `grid_world.py` to open an interactive 25 by 25 society. Enter a population from 1 to 625 and press **Restart simulation**. The high contrast dark grid uses red for people who have not heard the information and green for people who have heard it. The counter shows how many people know it at the selected time. Drag the slider to inspect earlier or later steps, or use Play and Pause. A second dark window plots the number informed against time. Its yellow line marks the time selected in the grid window, and its dashed line marks the full-population goal.
 
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
-.venv/bin/python run_experiment.py --compare
-.venv/bin/python run_experiment.py --people 40 --seed 1
-.venv/bin/python run_experiment.py --people 8 --size 5 --max-steps 20 --engine psl
-.venv/bin/python visualize.py --people 40
-.venv/bin/jupyter notebook information_flow.ipynb
+.venv/bin/python grid_world.py
 ```
 
-`visualize.py` uses PyQtGraph for a live red/green scatter plot and a progress curve. The notebook opens the same interactive Qt window. It needs a graphical desktop. `run_experiment.py` works without a display.
+The window computes new steps in the background, so it stays responsive while PSL runs. A restarted simulation uses the same random seed. This makes two population settings easier to compare. There is no LLM.
 
-## What PSL does here
+## Rules
 
-The direct model computes the exact Boolean update. The PSL model observes `KnownPrev(P)` and the sharing events created after movement. It then infers `Known(P)` from two hard rules. `Adjacent(P,Q)` is observed from the current grid:
+The simulation starts with one informed person near the center. At each time step, the model randomly pairs neighboring cells. No cell belongs to more than one pair. All pairs swap their contents at once, so a person moves into an empty cell or exchanges places with another person. Anyone without a pair stays for that step. This avoids collisions and lets dense populations move too. People share only with adjacent neighbors after moving. The sharing likelihood is fixed at 1 in the window, so each eligible contact succeeds. A new recipient can share at the next step. The goal is reached when everyone is informed, or the run stops at 500 steps.
+
+The population is the society parameter. Density is `population / 625`. Movement and sharing rules are identical for all people. The code keeps the physical movement and contact sampling in `grid_world.py`. The actual PSL rules are grouped and commented in `psl_model.py`, in the `psl_rules()` function:
 
 ```text
 KnownPrev(P) -> Known(P) .
 KnownPrev(P) & Adjacent(P,Q) & ShareEvent(P,Q) -> Known(Q) .
+1: !Known(P) ^2
 ```
 
-A weak negative prior keeps unsupported `Known` atoms at zero. The model uses genuine PSL inference, but the hard rules make its result match the direct baseline. PSL does not choose movements or sample sharing events here. A PSL truth value or rule weight should not be called a calibrated chance of sharing. To represent a literal 50% sharing likelihood, the simulator samples a Bernoulli event before PSL inference. We can later test soft PSL rules as graded support, but they would need an explicit interpretation and validation before comparing them with behavioral probabilities.
+PSL infers the next awareness state from the previous state and observed sharing contacts. The hard rules make the state Boolean here. The final weak rule keeps unsupported awareness at zero. Movement and any future sharing chance are outside PSL. A PSL soft truth value or rule weight is not automatically a probability of sharing.
 
-## Measurements
+For a small check without the window:
 
-`--compare` runs five seeds at three densities and reports completed runs and mean time to full awareness among completed runs. The completion count matters because incomplete runs are censored. For the default 20 by 20 grid, five seeded runs at each density all completed by step 500. Mean completion times were 209.8 steps for 10 people, 91.0 for 40 people, and 34.8 for 120 people. These are synthetic mechanism checks, not claims about real societies.
+```bash
+.venv/bin/python -m unittest discover -s tests
+```

@@ -7,18 +7,23 @@ import random
 
 
 class GridWorldTests(unittest.TestCase):
+    def test_default_grid_size(self):
+        self.assertEqual(Config().size, 25)
+
     def test_reproducible_and_monotone(self):
         config = Config(size=8, people=20, max_steps=40, seed=11)
-        a, b = run(config), run(config)
+        a, b = run(config, 'direct'), run(config, 'direct')
         self.assertEqual(a, b)
         for before, after in zip(a, a[1:]):
             self.assertLessEqual(before.informed, after.informed)
+            for (x0, y0), (x1, y1) in zip(before.positions, after.positions):
+                self.assertLessEqual(abs(x0 - x1) + abs(y0 - y1), 1)
             self.assertEqual(len(after.positions), len(set(after.positions)))
             self.assertTrue(all(0 <= x < config.size and 0 <= y < config.size
                                 for x, y in after.positions))
 
     def test_zero_sharing_cannot_spread(self):
-        history = run(Config(size=5, people=10, share_probability=0, max_steps=15))
+        history = run(Config(size=5, people=10, share_probability=0, max_steps=15), 'direct')
         self.assertEqual(len(history[-1].informed), 1)
 
     def test_dense_grid_can_move_by_swapping(self):
@@ -31,7 +36,7 @@ class GridWorldTests(unittest.TestCase):
 
     def test_psl_matches_direct_update(self):
         config = Config(size=5, people=10, max_steps=5, seed=3)
-        self.assertEqual(run(config), run(config, 'psl'))
+        self.assertEqual(run(config, 'direct'), run(config, 'psl'))
 
 
 if __name__ == '__main__':
