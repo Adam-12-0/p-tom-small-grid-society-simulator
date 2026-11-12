@@ -7,11 +7,19 @@ import threading
 def display(run_steps, config_type, start_event_loop: bool = True):
     """Open a grid window and a synchronized count-over-time plot."""
     import pyqtgraph as pg
-    from pyqtgraph.Qt import QtCore, QtWidgets
+    from pyqtgraph.Qt import QtCore, QtGui, QtWidgets
 
     pg.setConfigOption("background", "#0d1117")
     pg.setConfigOption("foreground", "#e6edf3")
     app = pg.mkQApp("Information flow")
+    app.setStyle("Fusion")
+    palette = QtGui.QPalette()
+    for role, color in (("Window", "#161b22"), ("WindowText", "#e6edf3"),
+                        ("Base", "#0d1117"), ("Text", "#e6edf3"),
+                        ("Button", "#21262d"), ("ButtonText", "#e6edf3"),
+                        ("Highlight", "#596a7c"), ("HighlightedText", "#ffffff")):
+        palette.setColor(getattr(QtGui.QPalette.ColorRole, role), QtGui.QColor(color))
+    app.setPalette(palette)
 
     class Bridge(QtCore.QObject):
         frame_ready = QtCore.pyqtSignal(int, object)
@@ -32,7 +40,7 @@ def display(run_steps, config_type, start_event_loop: bool = True):
     count_plot.setLabel("bottom", "Time step")
     count_plot.setLabel("left", "People informed")
     count_plot.showGrid(x=True, y=True, alpha=0.25)
-    count_curve = count_plot.plot(pen=pg.mkPen("#43d17a", width=3))
+    count_curve = count_plot.plot(pen=pg.mkPen("#ff4d5a", width=3))
     target_line = pg.InfiniteLine(angle=0, pen=pg.mkPen("#64748b", width=1,
                                   style=QtCore.Qt.PenStyle.DashLine))
     time_cursor = pg.InfiniteLine(angle=90, pen=pg.mkPen("#facc15", width=2))
@@ -69,8 +77,8 @@ def display(run_steps, config_type, start_event_loop: bool = True):
             self.status_label = QtWidgets.QLabel("Starting...")
             layout.addWidget(self.status_label)
             layout.addWidget(QtWidgets.QLabel(
-                '<span style="color:#ff4d5a">●</span> Red: uninformed    '
-                '<span style="color:#43d17a">●</span> Green: informed'))
+                '<span style="color:#ffffff">●</span> White: uninformed    '
+                '<span style="color:#ff4d5a">●</span> Red: informed    □ Fixed source'))
 
             grid_row = QtWidgets.QHBoxLayout()
             grid_row.addStretch()
@@ -95,6 +103,9 @@ def display(run_steps, config_type, start_event_loop: bool = True):
                                              pen=pg.mkPen("#30363d", width=1)))
                 grid.addItem(pg.InfiniteLine(pos=boundary, angle=0,
                                              pen=pg.mkPen("#30363d", width=1)))
+            grid.addItem(pg.ScatterPlotItem(
+                pos=[(12, 12)], symbol="s", size=24,
+                brush=pg.mkBrush(0, 0, 0, 0), pen=pg.mkPen("#ffffff", width=2)))
             self.dots = pg.ScatterPlotItem(size=12, pen=pg.mkPen("#0d1117", width=0.6))
             grid.addItem(self.dots)
 
@@ -136,7 +147,7 @@ def display(run_steps, config_type, start_event_loop: bool = True):
             self.finished = False
             self.paused = False
             self.slider.setRange(0, 0)
-            self.counter_label.setText(f"Time 0  |  1 / {config.people} informed")
+            self.counter_label.setText(f"Population {config.people} | initializing source contacts")
             self.status_label.setText("Computing PSL steps...")
             self.dots.setData([])
             count_label.setText(f"Population {config.people} | waiting for time 0")
@@ -188,7 +199,7 @@ def display(run_steps, config_type, start_event_loop: bool = True):
                 return
             frame = self.frames[step]
             self.dots.setData([
-                {"pos": point, "brush": pg.mkBrush("#43d17a" if i in frame.informed else "#ff4d5a")}
+                {"pos": point, "brush": pg.mkBrush("#ff4d5a" if i in frame.informed else "#ffffff")}
                 for i, point in enumerate(frame.positions)
             ])
             self.counter_label.setText(

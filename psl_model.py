@@ -12,9 +12,12 @@ def psl_rules() -> tuple[str, ...]:
     KnownPrev(P) is whether P knew the information at the start of this step.
     Adjacent(P,Q) means their cells touch along an edge after movement.
     ShareEvent(P,Q) records a successful sharing action this step.
+    SourceContact(P) means P is on or next to the fixed information source.
     Known(P) is the awareness state PSL must infer for the next step.
     """
     return (
+        # The fixed source is always active. Direct contact informs a person.
+        "SourceContact(P) -> Known(P) .",
         # Once a person knows, they keep knowing. This is a hard rule.
         "KnownPrev(P) -> Known(P) .",
         # A successful adjacent contact informs its recipient. New recipients
@@ -27,7 +30,8 @@ def psl_rules() -> tuple[str, ...]:
 
 def infer_known(people: int, prior: frozenset[int],
                 adjacency: set[tuple[int, int]],
-                events: set[tuple[int, int]]) -> frozenset[int]:
+                events: set[tuple[int, int]],
+                source_contact: frozenset[int]) -> frozenset[int]:
     """Run PSL on observed positions and sharing actions for one step."""
     from pslpython.model import Model
     from pslpython.partition import Partition
@@ -36,7 +40,7 @@ def infer_known(people: int, prior: frozenset[int],
 
     model = Model("information-flow")
     for name, arity in (("KnownPrev", 1), ("Adjacent", 2),
-                        ("ShareEvent", 2), ("Known", 1)):
+                        ("ShareEvent", 2), ("SourceContact", 1), ("Known", 1)):
         model.add_predicate(Predicate(name, size=arity))
     for rule in psl_rules():
         model.add_rule(Rule(rule))
@@ -44,6 +48,10 @@ def infer_known(people: int, prior: frozenset[int],
     model.get_predicate("KnownPrev").add_data(
         Partition.OBSERVATIONS,
         [(str(i), float(i in prior)) for i in range(people)],
+    )
+    model.get_predicate("SourceContact").add_data(
+        Partition.OBSERVATIONS,
+        [(str(i), float(i in source_contact)) for i in range(people)],
     )
     if adjacency:
         model.get_predicate("Adjacent").add_data(

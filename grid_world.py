@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import random
+from functools import lru_cache
 from typing import Iterator
 
 
@@ -39,16 +40,38 @@ def neighbors(point: tuple[int, int], size: int) -> list[tuple[int, int]]:
             if 0 <= a < size and 0 <= b < size]
 
 
-def initial_positions(config: Config, rng: random.Random) -> tuple[tuple[int, int], ...]:
-    cells = [(x, y) for y in range(config.size) for x in range(config.size)]
-    return tuple(rng.sample(cells, config.people))
+@lru_cache(maxsize=None)
+def layout_cells(size: int) -> tuple[tuple[int, int], ...]:
+    """A fixed, nested layout: repeatedly choose the farthest unfilled cell.
+
+    Start at (0, 0). Break distance ties in row-major order. This distributes
+    sparse populations across the grid without consuming any random numbers.
+    The first N cells are unchanged when the population is increased.
+    """
+    remaining = [(x, y) for y in range(size) for x in range(size)]
+    distances = {cell: float("inf") for cell in remaining}
+    ordered = []
+    chosen = remaining[0]
+    while remaining:
+        remaining.remove(chosen)
+        ordered.append(chosen)
+        for cell in remaining:
+            distance = (cell[0] - chosen[0]) ** 2 + (cell[1] - chosen[1]) ** 2
+            distances[cell] = min(distances[cell], distance)
+        if remaining:
+            chosen = max(remaining, key=lambda cell: distances[cell])
+    return tuple(ordered)
 
 
-def first_informed(positions: tuple[tuple[int, int], ...], size: int) -> int:
-    """Start with the person whose cell is closest to the center."""
-    center = (size - 1) / 2
-    return min(range(len(positions)), key=lambda i: (
-        (positions[i][0] - center) ** 2 + (positions[i][1] - center) ** 2, i))
+def initial_positions(config: Config) -> tuple[tuple[int, int], ...]:
+    return layout_cells(config.size)[:config.people]
+
+
+def source_contacts(positions: tuple[tuple[int, int], ...], size: int) -> frozenset[int]:
+    """The fixed source informs people on its cell or a cardinal neighbor."""
+    center = size // 2
+    return frozenset(i for i, (x, y) in enumerate(positions)
+                     if abs(x - center) + abs(y - center) <= 1)
 
 
 def move(positions: tuple[tuple[int, int], ...], size: int,
@@ -61,8 +84,11 @@ def move(positions: tuple[tuple[int, int], ...], size: int,
     order effects. Unpaired people stay at their current cells for this step.
     """
     occupied = {point: i for i, point in enumerate(positions)}
+    # Include every grid edge, even between empty cells. The resulting cell
+    # pairing schedule is identical across populations when the seed is fixed.
     edges = {(min(point, other), max(point, other))
-             for point in positions for other in neighbors(point, size)}
+             for y in range(size) for x in range(size)
+             for point in [(x, y)] for other in neighbors(point, size)}
     candidates = sorted(edges)
     rng.shuffle(candidates)
     used_cells = set()
@@ -91,29 +117,37 @@ def adjacent_pairs(positions: tuple[tuple[int, int], ...],
 def sharing_events(adjacency: set[tuple[int, int]], informed: frozenset[int],
                    chance: float, rng: random.Random) -> set[tuple[int, int]]:
     """Only people informed before this step can share during this step."""
-    return {(source, target) for source, target in sorted(adjacency)
-            if source in informed and target not in informed and rng.random() < chance}
+    eligible = {(source, target) for source, target in adjacency
+                if source in informed and target not in informed}
+    if chance == 1:
+        return eligible
+    return {event for event in sorted(eligible) if rng.random() < chance}
 
 
 def run_steps(config: Config, engine: str = "psl") -> Iterator[Frame]:
     """Yield frames as they are computed so the window stays responsive."""
     if engine not in {"psl", "direct"}:
         raise ValueError("Engine must be 'psl' or 'direct'.")
-    rng = random.Random(config.seed)
-    positions = initial_positions(config, rng)
-    informed = frozenset({first_informed(positions, config.size)})
+    movement_rng = random.Random(config.seed)
+    sharing_rng = random.Random(config.seed + 1)
+    positions = initial_positions(config)
+    informed = source_contacts(positions, config.size)
+    if engine == "psl":
+        from psl_model import infer_known
+        informed = infer_known(config.people, frozenset(), set(), set(), informed)
     yield Frame(0, positions, informed)
     for step in range(1, config.max_steps + 1):
         if len(informed) == config.people:
             break
-        positions = move(positions, config.size, rng)
+        positions = move(positions, config.size, movement_rng)
         adjacency = adjacent_pairs(positions, config.size)
-        events = sharing_events(adjacency, informed, config.share_probability, rng)
+        events = sharing_events(adjacency, informed, config.share_probability, sharing_rng)
+        at_source = source_contacts(positions, config.size)
         if engine == "psl":
             from psl_model import infer_known
-            informed = infer_known(config.people, informed, adjacency, events)
+            informed = infer_known(config.people, informed, adjacency, events, at_source)
         else:
-            informed = informed | frozenset(target for _, target in events)
+            informed = informed | at_source | frozenset(target for _, target in events)
         yield Frame(step, positions, informed)
 
 

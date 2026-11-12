@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from grid_world import Config, initial_positions, move, run
+from grid_world import Config, initial_positions, move, run, source_contacts
 import random
 
 
@@ -22,14 +22,41 @@ class GridWorldTests(unittest.TestCase):
             self.assertTrue(all(0 <= x < config.size and 0 <= y < config.size
                                 for x, y in after.positions))
 
-    def test_zero_sharing_cannot_spread(self):
-        history = run(Config(size=5, people=10, share_probability=0, max_steps=15), 'direct')
-        self.assertEqual(len(history[-1].informed), 1)
+    def test_zero_peer_sharing_only_learns_from_source(self):
+        config = Config(size=5, people=10, share_probability=0, max_steps=15)
+        history = run(config, 'direct')
+        for before, after in zip(history, history[1:]):
+            self.assertEqual(after.informed - before.informed,
+                             source_contacts(after.positions, config.size) - before.informed)
+
+    def test_fixed_source_contact_geometry(self):
+        positions = ((2, 2), (2, 1), (1, 2), (1, 1), (0, 0))
+        self.assertEqual(source_contacts(positions, 5), frozenset({0, 1, 2}))
+
+    def test_layout_is_nested_and_independent_of_movement_seed(self):
+        small = initial_positions(Config(size=8, people=10, seed=1))
+        large = initial_positions(Config(size=8, people=20, seed=99))
+        self.assertEqual(small, large[:10])
+        self.assertEqual(len(large), len(set(large)))
+
+    def test_shared_people_have_identical_paths_across_populations(self):
+        small = initial_positions(Config(size=8, people=10))
+        large = initial_positions(Config(size=8, people=20))
+        rng_small, rng_large = random.Random(7), random.Random(7)
+        for _ in range(15):
+            small = move(small, 8, rng_small)
+            large = move(large, 8, rng_large)
+            self.assertEqual(small, large[:10])
+
+    def test_psl_source_can_inform_without_peer_events(self):
+        from psl_model import infer_known
+        self.assertEqual(infer_known(3, frozenset(), set(), set(), frozenset({1})),
+                         frozenset({1}))
 
     def test_dense_grid_can_move_by_swapping(self):
         config = Config(size=3, people=9)
         rng = random.Random(7)
-        before = initial_positions(config, rng)
+        before = initial_positions(config)
         after = move(before, config.size, rng)
         self.assertEqual(set(before), set(after))
         self.assertNotEqual(before, after)
