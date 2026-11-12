@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from grid_world import Config, initial_positions, move, run
+from grid_world import Config, initial_positions, move, run, resolve_moves
 import random
 
 
@@ -38,14 +38,25 @@ class GridWorldTests(unittest.TestCase):
         self.assertEqual(small, large[:10])
         self.assertEqual(len(large), len(set(large)))
 
-    def test_shared_people_have_identical_paths_across_populations(self):
-        small = initial_positions(Config(size=8, people=10))
-        large = initial_positions(Config(size=8, people=20))
-        rng_small, rng_large = random.Random(7), random.Random(7)
-        for _ in range(15):
-            small = move(small, 8, rng_small)
-            large = move(large, 8, rng_large)
-            self.assertEqual(small, large[:10])
+    def test_competing_destinations_have_one_winner(self):
+        positions = ((0, 0), (2, 0))
+        self.assertEqual(resolve_moves(positions, ((1, 0), (1, 0)), (.9, .1)),
+                         ((1, 0), (2, 0)))
+
+    def test_blocking_propagates_back_through_chain(self):
+        positions = ((0, 0), (1, 0), (2, 0), (2, 2))
+        # Person 3 wins (2,1). Person 2 stays, blocking 1 and then 0.
+        self.assertEqual(resolve_moves(positions, ((1, 0), (2, 0), (2, 1), (2, 1)),
+                                       (.5, .5, .1, .9)),
+                         ((0, 0), (1, 0), (2, 0), (2, 1)))
+
+    def test_mutual_swap_is_allowed(self):
+        self.assertEqual(resolve_moves(((0, 0), (1, 0)), ((1, 0), (0, 0)), (.5, .5)),
+                         ((1, 0), (0, 0)))
+
+    def test_chain_can_move_into_vacancy(self):
+        self.assertEqual(resolve_moves(((0, 0), (1, 0)), ((1, 0), (2, 0)), (.5, .5)),
+                         ((1, 0), (2, 0)))
 
     def test_psl_does_not_inform_without_peer_support(self):
         from psl_model import infer_known

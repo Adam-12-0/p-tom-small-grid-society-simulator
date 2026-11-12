@@ -67,36 +67,48 @@ def initial_positions(config: Config) -> tuple[tuple[int, int], ...]:
     return layout_cells(config.size)[:config.people]
 
 
+def resolve_moves(positions: tuple[tuple[int, int], ...],
+                  proposals: tuple[tuple[int, int], ...],
+                  priorities: tuple[float, ...]) -> tuple[tuple[int, int], ...]:
+    """Resolve proposals from the old state, then apply accepted moves together.
+
+    One randomly ranked contender wins each destination. Cancel moves into
+    cells whose occupants are staying, repeating until blocked chains settle.
+    Mutual swaps and closed movement cycles are allowed, as are chains ending
+    in an empty cell. Losing contenders stay; they do not make a second choice.
+    """
+    occupied = {cell: person for person, cell in enumerate(positions)}
+    winners = {}
+    for person, destination in enumerate(proposals):
+        previous = winners.get(destination)
+        if previous is None or (priorities[person], person) > (priorities[previous], previous):
+            winners[destination] = person
+    accepted = set(winners.values())
+    while True:
+        blocked = {person for person in accepted
+                   if proposals[person] in occupied
+                   and occupied[proposals[person]] not in accepted}
+        if not blocked:
+            break
+        accepted -= blocked
+    return tuple(proposals[i] if i in accepted else cell for i, cell in enumerate(positions))
+
+
 def move(positions: tuple[tuple[int, int], ...], size: int,
          rng: random.Random) -> tuple[tuple[int, int], ...]:
-    """Move people simultaneously through disjoint random neighboring pairs.
+    """Every person independently attempts one cardinal move per turn.
 
-    Every person is considered for a move. A selected pair swaps its contents:
-    a person enters an empty cell, or two people exchange occupied cells.
-    Because no cell belongs to two pairs, there are no collisions or update
-    order effects. Unpaired people stay at their current cells for this step.
+    Give each person a reproducible random stream for this turn. Streams for
+    existing person IDs are unchanged when more people are added, although
+    actual paths may differ because the added people create new conflicts.
     """
-    occupied = {point: i for i, point in enumerate(positions)}
-    # Include every grid edge, even between empty cells. The resulting cell
-    # pairing schedule is identical across populations when the seed is fixed.
-    edges = {(min(point, other), max(point, other))
-             for y in range(size) for x in range(size)
-             for point in [(x, y)] for other in neighbors(point, size)}
-    candidates = sorted(edges)
-    rng.shuffle(candidates)
-    used_cells = set()
-    moved = list(positions)
-    for a, b in candidates:
-        if a in used_cells or b in used_cells:
-            continue
-        used_cells.update((a, b))
-        person_a = occupied.get(a)
-        person_b = occupied.get(b)
-        if person_a is not None:
-            moved[person_a] = b
-        if person_b is not None:
-            moved[person_b] = a
-    return tuple(moved)
+    turn_seed = rng.getrandbits(64)
+    proposals, priorities = [], []
+    for person, cell in enumerate(positions):
+        person_rng = random.Random((turn_seed << 32) + person)
+        proposals.append(person_rng.choice(neighbors(cell, size)))
+        priorities.append(person_rng.random())
+    return resolve_moves(positions, tuple(proposals), tuple(priorities))
 
 
 def adjacent_pairs(positions: tuple[tuple[int, int], ...],
