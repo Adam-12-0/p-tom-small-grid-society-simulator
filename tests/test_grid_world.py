@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from grid_world import Config, initial_positions, move, run, source_contacts
+from grid_world import Config, initial_positions, move, run
 import random
 
 
@@ -22,16 +22,15 @@ class GridWorldTests(unittest.TestCase):
             self.assertTrue(all(0 <= x < config.size and 0 <= y < config.size
                                 for x, y in after.positions))
 
-    def test_zero_peer_sharing_only_learns_from_source(self):
-        config = Config(size=5, people=10, share_probability=0, max_steps=15)
-        history = run(config, 'direct')
-        for before, after in zip(history, history[1:]):
-            self.assertEqual(after.informed - before.informed,
-                             source_contacts(after.positions, config.size) - before.informed)
+    def test_zero_sharing_keeps_exactly_one_informed(self):
+        history = run(Config(size=5, people=10, share_probability=0, max_steps=15), 'direct')
+        self.assertTrue(all(frame.informed == frozenset({0}) for frame in history))
 
-    def test_fixed_source_contact_geometry(self):
-        positions = ((2, 2), (2, 1), (1, 2), (1, 1), (0, 0))
-        self.assertEqual(source_contacts(positions, 5), frozenset({0, 1, 2}))
+    def test_exactly_one_informed_person_starts_at_center(self):
+        for people in (1, 10, 40, 625):
+            frame = run(Config(people=people, max_steps=0), 'direct')[0]
+            self.assertEqual(frame.positions[0], (12, 12))
+            self.assertEqual(frame.informed, frozenset({0}))
 
     def test_layout_is_nested_and_independent_of_movement_seed(self):
         small = initial_positions(Config(size=8, people=10, seed=1))
@@ -48,10 +47,10 @@ class GridWorldTests(unittest.TestCase):
             large = move(large, 8, rng_large)
             self.assertEqual(small, large[:10])
 
-    def test_psl_source_can_inform_without_peer_events(self):
+    def test_psl_does_not_inform_without_peer_support(self):
         from psl_model import infer_known
-        self.assertEqual(infer_known(3, frozenset(), set(), set(), frozenset({1})),
-                         frozenset({1}))
+        self.assertEqual(infer_known(3, frozenset({0}), set(), set()),
+                         frozenset({0}))
 
     def test_dense_grid_can_move_by_swapping(self):
         config = Config(size=3, people=9)

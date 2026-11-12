@@ -78,7 +78,7 @@ def display(run_steps, config_type, start_event_loop: bool = True):
             layout.addWidget(self.status_label)
             layout.addWidget(QtWidgets.QLabel(
                 '<span style="color:#ffffff">●</span> White: uninformed    '
-                '<span style="color:#ff4d5a">●</span> Red: informed    □ Fixed source'))
+                '<span style="color:#ff4d5a">●</span> Red: informed'))
 
             grid_row = QtWidgets.QHBoxLayout()
             grid_row.addStretch()
@@ -103,9 +103,6 @@ def display(run_steps, config_type, start_event_loop: bool = True):
                                              pen=pg.mkPen("#30363d", width=1)))
                 grid.addItem(pg.InfiniteLine(pos=boundary, angle=0,
                                              pen=pg.mkPen("#30363d", width=1)))
-            grid.addItem(pg.ScatterPlotItem(
-                pos=[(12, 12)], symbol="s", size=24,
-                brush=pg.mkBrush(0, 0, 0, 0), pen=pg.mkPen("#ffffff", width=2)))
             self.dots = pg.ScatterPlotItem(size=12, pen=pg.mkPen("#0d1117", width=0.6))
             grid.addItem(self.dots)
 
@@ -147,7 +144,7 @@ def display(run_steps, config_type, start_event_loop: bool = True):
             self.finished = False
             self.paused = False
             self.slider.setRange(0, 0)
-            self.counter_label.setText(f"Population {config.people} | initializing source contacts")
+            self.counter_label.setText(f"Time 0  |  1 / {config.people} informed")
             self.status_label.setText("Computing PSL steps...")
             self.dots.setData([])
             count_label.setText(f"Population {config.people} | waiting for time 0")

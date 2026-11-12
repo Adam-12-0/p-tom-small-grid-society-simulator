@@ -44,14 +44,14 @@ def neighbors(point: tuple[int, int], size: int) -> list[tuple[int, int]]:
 def layout_cells(size: int) -> tuple[tuple[int, int], ...]:
     """A fixed, nested layout: repeatedly choose the farthest unfilled cell.
 
-    Start at (0, 0). Break distance ties in row-major order. This distributes
+    Put person 0 at the center. Break distance ties in row-major order. This distributes
     sparse populations across the grid without consuming any random numbers.
     The first N cells are unchanged when the population is increased.
     """
     remaining = [(x, y) for y in range(size) for x in range(size)]
     distances = {cell: float("inf") for cell in remaining}
     ordered = []
-    chosen = remaining[0]
+    chosen = (size // 2, size // 2)
     while remaining:
         remaining.remove(chosen)
         ordered.append(chosen)
@@ -65,13 +65,6 @@ def layout_cells(size: int) -> tuple[tuple[int, int], ...]:
 
 def initial_positions(config: Config) -> tuple[tuple[int, int], ...]:
     return layout_cells(config.size)[:config.people]
-
-
-def source_contacts(positions: tuple[tuple[int, int], ...], size: int) -> frozenset[int]:
-    """The fixed source informs people on its cell or a cardinal neighbor."""
-    center = size // 2
-    return frozenset(i for i, (x, y) in enumerate(positions)
-                     if abs(x - center) + abs(y - center) <= 1)
 
 
 def move(positions: tuple[tuple[int, int], ...], size: int,
@@ -131,10 +124,9 @@ def run_steps(config: Config, engine: str = "psl") -> Iterator[Frame]:
     movement_rng = random.Random(config.seed)
     sharing_rng = random.Random(config.seed + 1)
     positions = initial_positions(config)
-    informed = source_contacts(positions, config.size)
-    if engine == "psl":
-        from psl_model import infer_known
-        informed = infer_known(config.people, frozenset(), set(), set(), informed)
+    # The same designated person starts at the center in every population.
+    # Information then travels with people, without an environmental source.
+    informed = frozenset({0})
     yield Frame(0, positions, informed)
     for step in range(1, config.max_steps + 1):
         if len(informed) == config.people:
@@ -142,12 +134,11 @@ def run_steps(config: Config, engine: str = "psl") -> Iterator[Frame]:
         positions = move(positions, config.size, movement_rng)
         adjacency = adjacent_pairs(positions, config.size)
         events = sharing_events(adjacency, informed, config.share_probability, sharing_rng)
-        at_source = source_contacts(positions, config.size)
         if engine == "psl":
             from psl_model import infer_known
-            informed = infer_known(config.people, informed, adjacency, events, at_source)
+            informed = infer_known(config.people, informed, adjacency, events)
         else:
-            informed = informed | at_source | frozenset(target for _, target in events)
+            informed = informed | frozenset(target for _, target in events)
         yield Frame(step, positions, informed)
 
 
